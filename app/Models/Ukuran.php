@@ -9,6 +9,8 @@ class Ukuran extends Model
 {
     use SoftDeletes;
 
+    protected $table = 'ukurans';
+
     protected $fillable = ['nama'];
 
     protected $dates = ['deleted_at'];
