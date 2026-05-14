@@ -11,19 +11,8 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\DetailTransaksiController;
 
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('barang', BarangController::class);
-Route::resource('stok-masuk', StokMasukController::class);
-Route::resource('transaksi', TransaksiController::class);
-Route::patch('transaksi/{transaksi}/status', [TransaksiController::class, 'updateStatus'])->name('transaksi.status');
-
-Route::resource('kategori-barang', KategoriBarangController::class);
-Route::resource('ukuran', UkuranController::class);
-Route::resource('warna', WarnaController::class);
-
-Route::resource('supplier', SupplierController::class);
-Route::resource('member', MemberController::class);
-Route::resource('detail-transaksi', DetailTransaksiController::class);
