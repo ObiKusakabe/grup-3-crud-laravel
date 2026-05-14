@@ -10,12 +10,12 @@ class KategoriBarangController extends Controller
     public function index()
     {
         $kategori = KategoriBarang::orderBy('nama')->get();
-        return view('kategori_barang.index', compact('kategori'));
+        return view('kategori-barang.index', compact('kategori'));
     }
 
     public function create()
     {
-        return view('kategori_barang.create');
+        return view('kategori-barang.create');
     }
 
     public function store(Request $request)
@@ -31,18 +31,18 @@ class KategoriBarangController extends Controller
 
     public function show(KategoriBarang $kategoriBarang)
     {
-        return view('kategori_barang.show', compact('kategoriBarang'));
+        return view('kategori-barang.show', compact('kategoriBarang'));
     }
 
     public function edit(KategoriBarang $kategoriBarang)
     {
-        return view('kategori_barang.edit', compact('kategoriBarang'));
+        return view('kategori-barang.edit', compact('kategoriBarang'));
     }
 
     public function update(Request $request, KategoriBarang $kategoriBarang)
     {
         $request->validate([
-            'nama' => 'required|unique:kategori_barang,nama,' . $kategoriBarang->id,
+            'nama' => 'required|unique:kategori-barang,nama,' . $kategoriBarang->id,
             'keterangan' => 'nullable'
         ]);
 
