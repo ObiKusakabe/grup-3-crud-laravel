@@ -1,11 +1,14 @@
 @extends('layouts.app')
-@section('title', 'Tambah Detail Transaksi')
+
+@section('title', 'Tambah Detail')
+
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h2 class="card-title">Tambah Detail Transaksi</h2>
-        <a href="{{ route('detail-transaksi.index') }}" class="btn btn-warning">Kembali</a>
+        <h1 class="card-title">📋 Tambah Detail Transaksi</h1>
+        <a href="{{ route('detail-transaksi.index') }}" class="btn btn-primary">← Kembali</a>
     </div>
+
     <form action="{{ route('detail-transaksi.store') }}" method="POST">
         @csrf
         <div class="form-group">
@@ -30,20 +33,20 @@
         </div>
         <div class="form-group">
             <label class="form-label">Harga Satuan</label>
-            <input type="number" name="harga_satuan" class="form-control" min="0" required>
+            <input type="number" name="harga_satuan" class="form-control" required>
         </div>
         <div class="form-group">
             <label class="form-label">Jenis</label>
-            <select name="jenis" class="form-select">
+            <select name="jenis" class="form-select" required>
                 <option value="jual">Jual</option>
                 <option value="retur">Retur</option>
             </select>
         </div>
         <div class="form-group">
-            <label class="form-label">Alasan Retur (isi jika retur)</label>
+            <label class="form-label">Alasan Retur (kalau retur)</label>
             <textarea name="alasan_retur" class="form-control" rows="2"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Simpan</button>
+        <button type="submit" class="btn btn-success">💾 Simpan (Stok Otomatis)</button>
     </form>
 </div>
 @endsection

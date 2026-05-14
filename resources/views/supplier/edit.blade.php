@@ -1,13 +1,17 @@
 @extends('layouts.app')
+
 @section('title', 'Edit Supplier')
+
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h2 class="card-title">Edit Supplier</h2>
-        <a href="{{ route('supplier.index') }}" class="btn btn-warning">Kembali</a>
+        <h1 class="card-title">🏭 Edit Supplier</h1>
+        <a href="{{ route('supplier.index') }}" class="btn btn-primary">← Kembali</a>
     </div>
+
     <form action="{{ route('supplier.update', $supplier) }}" method="POST">
-        @csrf @method('PUT')
+        @csrf
+        @method('PUT')
         <div class="form-group">
             <label class="form-label">Nama</label>
             <input type="text" name="nama" class="form-control" value="{{ $supplier->nama }}" required>
@@ -20,7 +24,7 @@
             <label class="form-label">Alamat</label>
             <textarea name="alamat" class="form-control" rows="3">{{ $supplier->alamat }}</textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn btn-success">💾 Update</button>
     </form>
 </div>
 @endsection

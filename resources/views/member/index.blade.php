@@ -1,34 +1,39 @@
 @extends('layouts.app')
-@section('title', 'Data Member')
+
+@section('title', 'Member')
+
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h2 class="card-title">Data Member</h2>
-        <a href="{{ route('member.create') }}" class="btn btn-primary">+ Tambah Member</a>
+        <h1 class="card-title">👤 Member</h1>
+        <a href="{{ route('member.create') }}" class="btn btn-success">+ Tambah</a>
     </div>
+
     <table class="table">
         <thead>
-            <tr>
-                <th>No</th><th>Nama</th><th>Telepon</th><th>Alamat</th><th>Diskon</th><th>Aksi</th>
-            </tr>
+            <tr><th>Nama</th><th>Telepon</th><th>Diskon</th><th>Aksi</th></tr>
         </thead>
         <tbody>
-            @foreach($member as $i => $m)
+            @forelse($member as $m)
             <tr>
-                <td>{{ $i+1 }}</td>
                 <td>{{ $m->nama }}</td>
-                <td>{{ $m->telepon ?? '-' }}</td>
-                <td>{{ $m->alamat ?? '-' }}</td>
-                <td>{{ $m->diskon_persen }}%</td>
+                <td>{{ $m->telepon ?: '-' }}</td>
+                <td><span class="badge badge-success">{{ $m->diskon_persen }}%</span></td>
                 <td>
-                    <a href="{{ route('member.edit', $m) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <form action="{{ route('member.destroy', $m) }}" method="POST" style="display:inline">
-                        @csrf @method('DELETE')
-                        <button class="btn btn-danger btn-sm" onclick="return confirm('Hapus?')">Hapus</button>
-                    </form>
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('member.show', $m) }}" class="btn btn-sm btn-primary">👁️</a>
+                        <a href="{{ route('member.edit', $m) }}" class="btn btn-sm btn-warning">✏️</a>
+                        <form action="{{ route('member.destroy', $m) }}" method="POST" onsubmit="return confirm('Yakin hapus?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-danger">🗑️</button>
+                        </form>
+                    </div>
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <tr><td colspan="4" class="text-center">Belum ada member</td></tr>
+            @endforelse
         </tbody>
     </table>
 </div>

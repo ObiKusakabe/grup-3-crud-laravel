@@ -1,33 +1,39 @@
 @extends('layouts.app')
-@section('title', 'Data Supplier')
+
+@section('title', 'Supplier')
+
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h2 class="card-title">Data Supplier</h2>
-        <a href="{{ route('supplier.create') }}" class="btn btn-primary">+ Tambah Supplier</a>
+        <h1 class="card-title">🏭 Supplier</h1>
+        <a href="{{ route('supplier.create') }}" class="btn btn-success">+ Tambah</a>
     </div>
+
     <table class="table">
         <thead>
-            <tr>
-                <th>No</th><th>Nama</th><th>Telepon</th><th>Alamat</th><th>Aksi</th>
-            </tr>
+            <tr><th>Nama</th><th>Telepon</th><th>Alamat</th><th>Aksi</th></tr>
         </thead>
         <tbody>
-            @foreach($supplier as $i => $s)
+            @forelse($supplier as $s)
             <tr>
-                <td>{{ $i+1 }}</td>
                 <td>{{ $s->nama }}</td>
-                <td>{{ $s->telepon ?? '-' }}</td>
-                <td>{{ $s->alamat ?? '-' }}</td>
+                <td>{{ $s->telepon ?: '-' }}</td>
+                <td>{{ $s->alamat ?: '-' }}</td>
                 <td>
-                    <a href="{{ route('supplier.edit', $s) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <form action="{{ route('supplier.destroy', $s) }}" method="POST" style="display:inline">
-                        @csrf @method('DELETE')
-                        <button class="btn btn-danger btn-sm" onclick="return confirm('Hapus?')">Hapus</button>
-                    </form>
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('supplier.show', $s) }}" class="btn btn-sm btn-primary">👁️</a>
+                        <a href="{{ route('supplier.edit', $s) }}" class="btn btn-sm btn-warning">✏️</a>
+                        <form action="{{ route('supplier.destroy', $s) }}" method="POST" onsubmit="return confirm('Yakin hapus?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-danger">🗑️</button>
+                        </form>
+                    </div>
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <tr><td colspan="4" class="text-center">Belum ada supplier</td></tr>
+            @endforelse
         </tbody>
     </table>
 </div>
