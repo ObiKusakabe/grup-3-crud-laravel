@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'POS Fashion')</title>
-    {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
-    @vite(['resources/css/app.css'])
-    @stack('styles')
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
     <div class="sidebar">
-        <div class="sidebar-brand">POS FASHION</div>
+        <div class="sidebar-brand">POS <span>FASHION</span></div>
         <ul class="sidebar-menu">
             <li><a href="{{ route('barang.index') }}" class="{{ request()->routeIs('barang.*') ? 'active' : '' }}">📦 Barang</a></li>
             <li><a href="{{ route('stok-masuk.index') }}" class="{{ request()->routeIs('stok-masuk.*') ? 'active' : '' }}">📥 Stok Masuk</a></li>
@@ -26,15 +24,13 @@
 
     <div class="main-content">
         @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
+            <div class="alert alert-success">✅ {{ session('success') }}</div>
         @endif
         @if(session('error'))
-            <div class="alert alert-danger">{{ session('error') }}</div>
+            <div class="alert alert-danger">❌ {{ session('error') }}</div>
         @endif
 
         @yield('content')
     </div>
-
-    @stack('scripts')
 </body>
 </html>
