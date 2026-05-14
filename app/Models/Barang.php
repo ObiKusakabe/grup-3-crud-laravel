@@ -9,7 +9,7 @@ class Barang extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'barang';
+    protected $table = 'barangs';
 
     protected $fillable = [
         'kode_barang',

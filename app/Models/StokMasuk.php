@@ -9,7 +9,7 @@ class StokMasuk extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'stok_masuk';
+    protected $table = 'stok_masuks';
 
     protected $fillable = [
         'nama_barang',
