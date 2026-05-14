@@ -12,3 +12,4 @@ Route::resource('detail-transaksi', DetailTransaksiController::class);
 Route::get('/', function () {
     return view('welcome');
 });
+
