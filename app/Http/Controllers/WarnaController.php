@@ -21,7 +21,7 @@ class WarnaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|unique:warna',
+            'nama' => 'required|unique:warnas',
             'kode_hex' => 'nullable'
         ]);
         Warna::create($request->all());
@@ -41,7 +41,7 @@ class WarnaController extends Controller
     public function update(Request $request, Warna $warna)
     {
         $request->validate([
-            'nama' => 'required|unique:warna,nama,' . $warna->id,
+            'nama' => 'required|unique:warnas,nama,' . $warna->id,
             'kode_hex' => 'nullable'
         ]);
         $warna->update($request->all());

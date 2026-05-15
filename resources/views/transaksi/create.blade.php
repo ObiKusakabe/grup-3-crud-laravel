@@ -71,15 +71,27 @@
         <button type="button" class="btn btn-primary mb-3" id="btn-tambah">+ Item</button>
 
         <hr>
-        <div style="font-size:1.2rem">
-            <p>Total: <span id="total-bayar">Rp 0</span></p>
-            <p>Diskon: <span id="diskon">Rp 0</span></p>
-            <p style="color:#e74c3c;font-size:1.5rem">Total Akhir: <span id="total-akhir">Rp 0</span></p>
-            <div class="form-group">
-                <label>Tunai</label>
-                <input type="number" name="tunai" id="input-tunai" class="form-control" style="width:200px" required>
+        <div class="summary-section" style="background:#f8f9ff;padding:25px;border-radius:8px;margin-bottom:20px">
+            <div class="d-flex justify-between align-center mb-3">
+                <span style="font-size:1.1rem;font-weight:600">Total:</span>
+                <span id="total-bayar" style="font-size:1.3rem;font-weight:700">Rp 0</span>
             </div>
-            <p>Kembalian: <span id="kembalian" style="color:#2ecc71">Rp 0</span></p>
+            <div class="d-flex justify-between align-center mb-3">
+                <span style="font-size:1.1rem;font-weight:600">Diskon:</span>
+                <span id="diskon" style="font-size:1.3rem;font-weight:700;color:#f39c12">Rp 0</span>
+            </div>
+            <div class="d-flex justify-between align-center mb-3" style="padding:15px 0;border-top:2px solid #e8e8e8;border-bottom:2px solid #e8e8e8">
+                <span style="font-size:1.3rem;font-weight:700">Total Akhir:</span>
+                <span id="total-akhir" style="font-size:1.8rem;font-weight:800;color:#e74c3c">Rp 0</span>
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label" style="font-size:1.1rem;font-weight:600">Tunai</label>
+                <input type="number" name="tunai" id="input-tunai" class="form-control" style="width:100%;font-size:1.2rem;padding:12px" required>
+            </div>
+            <div class="d-flex justify-between align-center">
+                <span style="font-size:1.1rem;font-weight:600">Kembalian:</span>
+                <span id="kembalian" style="font-size:1.4rem;font-weight:700;color:#2ecc71">Rp 0</span>
+            </div>
         </div>
 
         <button type="submit" class="btn btn-success" style="width:100%;padding:15px;font-size:1.2rem">💾 SIMPAN</button>

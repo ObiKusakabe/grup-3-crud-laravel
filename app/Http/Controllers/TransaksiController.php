@@ -27,7 +27,7 @@ class TransaksiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kode_transaksi' => 'required|unique:transaksi',
+            'kode_transaksi' => 'required|unique:transaksis',
             'tanggal' => 'required|date',
             'kasir' => 'required',
             'tunai' => 'required|numeric|min:0',

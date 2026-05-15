@@ -20,7 +20,7 @@ class UkuranController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate(['nama' => 'required|unique:ukuran']);
+        $request->validate(['nama' => 'required|unique:ukurans']);
         Ukuran::create($request->all());
         return redirect()->route('ukuran.index')->with('success', 'Ukuran berhasil ditambahkan');
     }
@@ -37,7 +37,7 @@ class UkuranController extends Controller
 
     public function update(Request $request, Ukuran $ukuran)
     {
-        $request->validate(['nama' => 'required|unique:ukuran,nama,' . $ukuran->id]);
+        $request->validate(['nama' => 'required|unique:ukurans,nama,' . $ukuran->id]);
         $ukuran->update($request->all());
         return redirect()->route('ukuran.index')->with('success', 'Ukuran berhasil diupdate');
     }

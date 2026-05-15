@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Warna extends Model
 {
     use SoftDeletes;
+    protected $table = 'warnas';
 
     protected $fillable = ['nama', 'kode_hex'];
 
