@@ -166,3 +166,42 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #
     .main-content { margin-left: 0; padding: 15px; }
     .table { font-size: 12px; }
 }
+
+/* ===== TOASTER UI CUSTOM STYLES (GitHub Logo Colors) ===== */
+.toaster-ui-lib-container {
+    max-width: 400px;
+    right: 20px;
+    top: 20px;
+}
+
+.toaster-ui-lib {
+    background: linear-gradient(135deg, #24292e 0%, #1a1e21 100%);
+    color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-left: 4px solid #58a6ff;
+}
+
+.toaster-ui-lib-success {
+    border-left-color: #2ea44f;
+}
+
+.toaster-ui-lib-error {
+    border-left-color: #da3633;
+}
+
+.toaster-ui-lib-warning {
+    border-left-color: #d29922;
+}
+
+.toaster-ui-lib-info {
+    border-left-color: #58a6ff;
+}
+
+.toaster-ui-lib-close {
+    color: #8b949e;
+}
+
+.toaster-ui-lib-close:hover {
+    color: #ffffff;
+}

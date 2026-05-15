@@ -23,15 +23,14 @@
     </div>
 
     <div class="main-content">
-        @if(session('success'))
-            <div class="alert alert-success">✅ {{ session('success') }}</div>
-        @endif
-        @if(session('error'))
-            <div class="alert alert-danger">❌ {{ session('error') }}</div>
-        @endif
-
         @yield('content')
     </div>
 @stack('scripts')
+
+<script>
+    // Pass session data to JavaScript
+    window.sessionSuccess = "{{ session('success') ?? '' }}";
+    window.sessionError = "{{ session('error') ?? '' }}";
+</script>
 </body>
 </html>
