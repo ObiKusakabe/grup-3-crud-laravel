@@ -1,6 +1,6 @@
 /* ===== RESET & BASE ===== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #333; }
+body { font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif; background: #f0f2f5; color: #333; }
 
 /* ===== SIDEBAR ===== */
 .sidebar {

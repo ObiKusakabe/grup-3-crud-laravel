@@ -42,7 +42,7 @@ class KategoriBarangController extends Controller
     public function update(Request $request, KategoriBarang $kategoriBarang)
     {
         $request->validate([
-            'nama' => 'required|unique:kategori-barang,nama,' . $kategoriBarang->id,
+            'nama' => 'required|unique:kategori_barang,nama,' . $kategoriBarang->id,
             'keterangan' => 'nullable'
         ]);
 

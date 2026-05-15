@@ -5,8 +5,8 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h1 class="card-title">📦 Detail Barang</h1>
-        <a href="{{ route('barang.index') }}" class="btn btn-primary">← Kembali</a>
+        <h1 class="card-title"><i data-lucide="package" style="width: 24px; vertical-align: middle; margin-right: 8px;"></i> Detail Barang</h1>
+        <a href="{{ route('barang.index') }}" class="btn btn-primary"><i data-lucide="arrow-left" style="width: 18px; margin-right: 6px;"></i> Kembali</a>
     </div>
 
     @if($barang->foto)
@@ -24,12 +24,12 @@
         <tr><th>Stok</th><td>{{ $barang->stok }}</td></tr>
     </table>
 
-    <div class="d-flex gap-2">
-        <a href="{{ route('barang.edit', $barang) }}" class="btn btn-warning">✏️ Edit</a>
+    <div class="d-flex gap-2" style="margin: 0 25px 25px;">
+        <a href="{{ route('barang.edit', $barang) }}" class="btn btn-warning"><i data-lucide="edit" style="width: 18px; margin-right: 6px;"></i> Edit</a>
         <form action="{{ route('barang.destroy', $barang) }}" method="POST" onsubmit="return confirm('Yakin hapus?')">
             @csrf
             @method('DELETE')
-            <button type="submit" class="btn btn-danger">🗑️ Hapus</button>
+            <button type="submit" class="btn btn-danger"><i data-lucide="trash-2" style="width: 18px; margin-right: 6px;"></i> Hapus</button>
         </form>
     </div>
 </div>

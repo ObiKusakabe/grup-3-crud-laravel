@@ -5,8 +5,8 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h1 class="card-title">📦 Tambah Barang</h1>
-        <a href="{{ route('barang.index') }}" class="btn btn-primary">← Kembali</a>
+        <h1 class="card-title"><i data-lucide="package" style="width: 24px; vertical-align: middle; margin-right: 8px;"></i> Tambah Barang</h1>
+        <a href="{{ route('barang.index') }}" class="btn btn-primary"><i data-lucide="arrow-left" style="width: 18px; margin-right: 6px;"></i> Kembali</a>
     </div>
 
     <form action="{{ route('barang.store') }}" method="POST" enctype="multipart/form-data">
@@ -47,7 +47,7 @@
             <label class="form-label">Foto</label>
             <input type="file" name="foto" class="form-control" accept="image/*">
         </div>
-        <button type="submit" class="btn btn-success">💾 Simpan</button>
+        <button type="submit" class="btn btn-success"><i data-lucide="save" style="width: 18px; margin-right: 6px;"></i> Simpan</button>
     </form>
 </div>
 @endsection

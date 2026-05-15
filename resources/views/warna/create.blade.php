@@ -5,8 +5,8 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h1 class="card-title">🎨 Tambah Warna</h1>
-        <a href="{{ route('warna.index') }}" class="btn btn-primary">← Kembali</a>
+        <h1 class="card-title"><i data-lucide="palette" style="width: 24px; vertical-align: middle; margin-right: 8px;"></i> Tambah Warna</h1>
+        <a href="{{ route('warna.index') }}" class="btn btn-primary"><i data-lucide="arrow-left" style="width: 18px; margin-right: 6px;"></i> Kembali</a>
     </div>
 
     <form action="{{ route('warna.store') }}" method="POST">
@@ -19,7 +19,7 @@
             <label class="form-label">Kode Warna</label>
             <input type="color" name="kode_hex" class="form-control" value="#000000" style="height:50px">
         </div>
-        <button type="submit" class="btn btn-success">💾 Simpan</button>
+        <button type="submit" class="btn btn-success"><i data-lucide="save" style="width: 18px; margin-right: 6px;"></i> Simpan</button>
     </form>
 </div>
 @endsection

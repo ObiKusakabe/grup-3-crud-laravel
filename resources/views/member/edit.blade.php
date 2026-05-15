@@ -5,8 +5,8 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h1 class="card-title">👤 Edit Member</h1>
-        <a href="{{ route('member.index') }}" class="btn btn-primary">← Kembali</a>
+        <h1 class="card-title"><i data-lucide="users" style="width: 24px; vertical-align: middle; margin-right: 8px;"></i> Edit Member</h1>
+        <a href="{{ route('member.index') }}" class="btn btn-primary"><i data-lucide="arrow-left" style="width: 18px; margin-right: 6px;"></i> Kembali</a>
     </div>
 
     <form action="{{ route('member.update', $member) }}" method="POST">
@@ -28,7 +28,7 @@
             <label class="form-label">Diskon (%)</label>
             <input type="number" name="diskon_persen" class="form-control" value="{{ $member->diskon_persen }}" min="0" max="100" step="0.01">
         </div>
-        <button type="submit" class="btn btn-success">💾 Update</button>
+        <button type="submit" class="btn btn-success"><i data-lucide="save" style="width: 18px; margin-right: 6px;"></i> Update</button>
     </form>
 </div>
 @endsection

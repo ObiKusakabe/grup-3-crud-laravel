@@ -5,8 +5,8 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h1 class="card-title">🛒 Detail Transaksi</h1>
-        <a href="{{ route('transaksi.index') }}" class="btn btn-primary">← Kembali</a>
+        <h1 class="card-title"><i data-lucide="shopping-cart" style="width: 24px; vertical-align: middle; margin-right: 8px;"></i> Detail Transaksi</h1>
+        <a href="{{ route('transaksi.index') }}" class="btn btn-primary"><i data-lucide="arrow-left" style="width: 18px; margin-right: 6px;"></i> Kembali</a>
     </div>
 
     <div style="border:2px dashed #ccc;padding:20px;text-align:center;margin-bottom:20px">
@@ -49,11 +49,11 @@
     </div>
 
     <div class="d-flex gap-2">
-        <a href="{{ route('transaksi.edit', $transaksi) }}" class="btn btn-warning">✏️ Edit Status</a>
+        <a href="{{ route('transaksi.edit', $transaksi) }}" class="btn btn-warning"><i data-lucide="edit" style="width: 18px; margin-right: 6px;"></i> Edit Status</a>
         <form action="{{ route('transaksi.destroy', $transaksi) }}" method="POST" onsubmit="return confirm('Yakin? Stok kembali!')">
             @csrf
             @method('DELETE')
-            <button type="submit" class="btn btn-danger">🗑️ Hapus</button>
+            <button type="submit" class="btn btn-danger"><i data-lucide="trash-2" style="width: 18px; margin-right: 6px;"></i> Hapus</button>
         </form>
     </div>
 </div>

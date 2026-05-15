@@ -5,8 +5,8 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h1 class="card-title">🎨 Warna</h1>
-        <a href="{{ route('warna.create') }}" class="btn btn-success">+ Tambah</a>
+        <h1 class="card-title"><i data-lucide="palette" style="width: 24px; vertical-align: middle; margin-right: 8px;"></i> Warna</h1>
+        <a href="{{ route('warna.create') }}" class="btn btn-success"><i data-lucide="plus" style="width: 18px; margin-right: 6px;"></i> Tambah</a>
     </div>
 
     <table class="table">
@@ -27,11 +27,11 @@
                 </td>
                 <td>
                     <div class="d-flex gap-2">
-                        <a href="{{ route('warna.edit', $w) }}" class="btn btn-sm btn-warning">✏️</a>
+                        <a href="{{ route('warna.edit', $w) }}" class="btn btn-sm btn-warning"><i data-lucide="edit" style="width: 16px;"></i></a>
                         <form action="{{ route('warna.destroy', $w) }}" method="POST" onsubmit="return confirm('Yakin hapus?')">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger">🗑️</button>
+                            <button type="submit" class="btn btn-sm btn-danger"><i data-lucide="trash-2" style="width: 16px;"></i></button>
                         </form>
                     </div>
                 </td>

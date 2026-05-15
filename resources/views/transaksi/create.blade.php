@@ -5,8 +5,8 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        <h1 class="card-title">🛒 Transaksi Baru</h1>
-        <a href="{{ route('transaksi.index') }}" class="btn btn-primary">← Kembali</a>
+        <h1 class="card-title"><i data-lucide="shopping-cart" style="width: 24px; vertical-align: middle; margin-right: 8px;"></i> Transaksi Baru</h1>
+        <a href="{{ route('transaksi.index') }}" class="btn btn-primary"><i data-lucide="arrow-left" style="width: 18px; margin-right: 6px;"></i> Kembali</a>
     </div>
 
     <form action="{{ route('transaksi.store') }}" method="POST" id="formTransaksi">
@@ -64,11 +64,11 @@
                         <input type="number" class="form-control input-harga" name="items[0][harga_satuan]" readonly>
                     </div>
                 </div>
-                <button type="button" class="btn btn-danger btn-sm mt-2 btn-hapus" style="display:none">🗑️</button>
+                <button type="button" class="btn btn-danger btn-sm mt-2 btn-hapus" style="display:none"><i data-lucide="trash-2" style="width: 16px;"></i></button>
             </div>
         </div>
 
-        <button type="button" class="btn btn-primary mb-3" id="btn-tambah">+ Item</button>
+        <button type="button" class="btn btn-primary mb-3" id="btn-tambah"><i data-lucide="plus" style="width: 18px; margin-right: 6px;"></i> Item</button>
 
         <hr>
         <div class="summary-section" style="background:#f8f9ff;padding:25px;border-radius:8px;margin-bottom:20px">
@@ -94,7 +94,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-success" style="width:100%;padding:15px;font-size:1.2rem">💾 SIMPAN</button>
+        <button type="submit" class="btn btn-success" style="width:100%;padding:15px;font-size:1.2rem"><i data-lucide="save" style="width: 18px; margin-right: 6px;"></i> SIMPAN</button>
     </form>
 </div>
 
