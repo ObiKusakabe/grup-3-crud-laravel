@@ -167,7 +167,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #
     .table { font-size: 12px; }
 }
 
-/* ===== TOASTER UI CUSTOM STYLES (GitHub Logo Colors) ===== */
+/* ===== TOASTER UI CUSTOM STYLES (Theme Colors) ===== */
 .toaster-ui-lib-container {
     max-width: 400px;
     right: 20px;
@@ -175,33 +175,42 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #
 }
 
 .toaster-ui-lib {
-    background: linear-gradient(135deg, #24292e 0%, #1a1e21 100%);
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
     color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border-left: 4px solid #58a6ff;
+    border-left: 4px solid #e94560;
 }
 
 .toaster-ui-lib-success {
-    border-left-color: #2ea44f;
+    border-left-color: #e94560;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
 }
 
 .toaster-ui-lib-error {
-    border-left-color: #da3633;
+    border-left-color: #e74c3c;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
 }
 
 .toaster-ui-lib-warning {
-    border-left-color: #d29922;
+    border-left-color: #f39c12;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
 }
 
 .toaster-ui-lib-info {
-    border-left-color: #58a6ff;
+    border-left-color: #0f3460;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
 }
 
 .toaster-ui-lib-close {
-    color: #8b949e;
+    color: #a8b2c1;
 }
 
 .toaster-ui-lib-close:hover {
-    color: #ffffff;
+    color: #e94560;
+}
+
+.toaster-ui-lib-loader {
+    background: #e94560 !important;
+    background-image: linear-gradient(90deg, #e94560, #0f3460) !important;
 }
