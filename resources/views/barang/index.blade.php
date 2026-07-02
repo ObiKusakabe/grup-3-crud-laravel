@@ -27,7 +27,7 @@
             <tr>
                 <td>{{ $b->kode_barang }}</td>
                 <td>{{ $b->nama }}</td>
-                <td><span class="badge badge-info">{{ $b->kategori }}</span></td>
+                <td>{{ $b->kategori->nama ?? '-' }}</td>
                 <td>{{ $b->ukuran }}</td>
                 <td>{{ $b->warna }}</td>
                 <td>Rp {{ number_format($b->harga_jual, 0, ',', '.') }}</td>

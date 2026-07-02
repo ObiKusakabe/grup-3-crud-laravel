@@ -21,7 +21,12 @@
         </div>
         <div class="form-group">
             <label class="form-label">Kategori</label>
-            <input type="text" name="kategori" class="form-control" required>
+            <select name="kategori_id" class="form-control" required>
+                <option value="">-- Pilih Kategori --</option>
+                @foreach($kategori as $kat)
+                    <option value="{{ $kat->id }}">{{ $kat->nama }}</option>
+                @endforeach
+            </select>
         </div>
         <div class="form-group">
             <label class="form-label">Ukuran</label>
