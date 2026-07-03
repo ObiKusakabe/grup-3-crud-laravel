@@ -14,4 +14,9 @@ class KategoriBarang extends Model
     protected $fillable = ['nama', 'keterangan'];
 
     protected $dates = ['deleted_at'];
+
+    public function barangs()
+    {
+        return $this->hasMany(Barang::class, 'kategori_id');
+    }
 }

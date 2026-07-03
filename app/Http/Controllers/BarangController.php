@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\KategoriBarang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,7 +17,8 @@ class BarangController extends Controller
 
     public function create()
     {
-        return view('barang.create');
+        $kategori = KategoriBarang::orderBy('nama')->get();
+        return view('barang.create', compact('kategori'));
     }
 
     public function store(Request $request)
@@ -24,7 +26,7 @@ class BarangController extends Controller
         $request->validate([
             'kode_barang' => 'required|unique:barangs',
             'nama' => 'required',
-            'kategori' => 'required',
+            'kategori_id' => 'required|exists:kategori_barang,id',
             'ukuran' => 'required',
             'warna' => 'required',
             'harga_beli' => 'required|numeric|min:0',
@@ -59,7 +61,7 @@ class BarangController extends Controller
         $request->validate([
             'kode_barang' => 'required|unique:barangs,kode_barang,' . $barang->id,
             'nama' => 'required',
-            'kategori' => 'required',
+            'kategori_id' => 'required|exists:kategori_barang,id',
             'ukuran' => 'required',
             'warna' => 'required',
             'harga_beli' => 'required|numeric|min:0',

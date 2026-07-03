@@ -14,7 +14,7 @@ class Barang extends Model
     protected $fillable = [
         'kode_barang',
         'nama',
-        'kategori',
+        'kategori_id',
         'ukuran',
         'warna',
         'harga_beli',
@@ -24,4 +24,9 @@ class Barang extends Model
     ];
 
     protected $dates = ['deleted_at'];
+
+    public function kategori()
+    {
+        return $this->belongsTo(KategoriBarang::class, 'kategori_id');
+    }
 }
