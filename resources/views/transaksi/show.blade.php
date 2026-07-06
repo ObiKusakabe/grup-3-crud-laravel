@@ -24,14 +24,12 @@
     <h3>Item</h3>
     <table class="table">
         <thead>
-            <tr><th>Barang</th><th>Ukuran</th><th>Warna</th><th>Jumlah</th><th>Harga</th><th>Subtotal</th></tr>
+            <tr><th>Barang</th><th>Jumlah</th><th>Harga</th><th>Subtotal</th></tr>
         </thead>
         <tbody>
             @foreach($details as $d)
             <tr>
                 <td>{{ $d->nama_barang }}</td>
-                <td>{{ $d->ukuran }}</td>
-                <td>{{ $d->warna }}</td>
                 <td>{{ $d->jumlah }}</td>
                 <td>Rp {{ number_format($d->harga_satuan, 0, ',', '.') }}</td>
                 <td>Rp {{ number_format($d->subtotal, 0, ',', '.') }}</td>

@@ -16,8 +16,6 @@
             <li><a href="{{ route('stok-masuk.index') }}" class="{{ request()->routeIs('stok-masuk.*') ? 'active' : '' }}"><i data-lucide="inbox" style="width: 18px; margin-right: 8px;"></i> Stok Masuk</a></li>
             <li><a href="{{ route('transaksi.index') }}" class="{{ request()->routeIs('transaksi.*') ? 'active' : '' }}"><i data-lucide="shopping-cart" style="width: 18px; margin-right: 8px;"></i> Transaksi</a></li>
             <li><a href="{{ route('kategori-barang.index') }}" class="{{ request()->routeIs('kategori-barang.*') ? 'active' : '' }}"><i data-lucide="tag" style="width: 18px; margin-right: 8px;"></i> Kategori</a></li>
-            <li><a href="{{ route('ukuran.index') }}" class="{{ request()->routeIs('ukuran.*') ? 'active' : '' }}"><i data-lucide="ruler" style="width: 18px; margin-right: 8px;"></i> Ukuran</a></li>
-            <li><a href="{{ route('warna.index') }}" class="{{ request()->routeIs('warna.*') ? 'active' : '' }}"><i data-lucide="palette" style="width: 18px; margin-right: 8px;"></i> Warna</a></li>
             <li><a href="{{ route('supplier.index') }}" class="{{ request()->routeIs('supplier.*') ? 'active' : '' }}"><i data-lucide="building-2" style="width: 18px; margin-right: 8px;"></i> Supplier</a></li>
             <li><a href="{{ route('member.index') }}" class="{{ request()->routeIs('member.*') ? 'active' : '' }}"><i data-lucide="users" style="width: 18px; margin-right: 8px;"></i> Member</a></li>
             <li><a href="{{ route('detail-transaksi.index') }}" class="{{ request()->routeIs('detail-transaksi.*') ? 'active' : '' }}"><i data-lucide="clipboard-list" style="width: 18px; margin-right: 8px;"></i> Detail Transaksi</a></li>

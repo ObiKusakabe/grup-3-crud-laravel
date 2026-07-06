@@ -25,14 +25,6 @@
             <input type="text" name="kategori" class="form-control" value="{{ $barang->kategori }}" required>
         </div>
         <div class="form-group">
-            <label class="form-label">Ukuran</label>
-            <input type="text" name="ukuran" class="form-control" value="{{ $barang->ukuran }}" required>
-        </div>
-        <div class="form-group">
-            <label class="form-label">Warna</label>
-            <input type="text" name="warna" class="form-control" value="{{ $barang->warna }}" required>
-        </div>
-        <div class="form-group">
             <label class="form-label">Harga Beli</label>
             <input type="number" name="harga_beli" class="form-control" value="{{ $barang->harga_beli }}" required>
         </div>

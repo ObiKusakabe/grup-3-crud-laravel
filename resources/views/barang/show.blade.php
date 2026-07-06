@@ -17,8 +17,6 @@
         <tr><th>Kode</th><td>{{ $barang->kode_barang }}</td></tr>
         <tr><th>Nama</th><td>{{ $barang->nama }}</td></tr>
         <tr><th>Kategori</th><td>{{ $barang->kategori }}</td></tr>
-        <tr><th>Ukuran</th><td>{{ $barang->ukuran }}</td></tr>
-        <tr><th>Warna</th><td>{{ $barang->warna }}</td></tr>
         <tr><th>Harga Beli</th><td>Rp {{ number_format($barang->harga_beli, 0, ',', '.') }}</td></tr>
         <tr><th>Harga Jual</th><td>Rp {{ number_format($barang->harga_jual, 0, ',', '.') }}</td></tr>
         <tr><th>Stok</th><td>{{ $barang->stok }}</td></tr>

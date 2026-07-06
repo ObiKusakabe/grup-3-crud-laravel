@@ -9,7 +9,7 @@ class DetailTransaksi extends Model {
     use SoftDeletes;
     protected $table = 'detail_transaksi';
     protected $fillable = [
-        'kode_transaksi', 'nama_barang', 'ukuran', 'warna',
+        'kode_transaksi', 'nama_barang',
         'jumlah', 'harga_satuan', 'subtotal', 'jenis', 'alasan_retur'
     ];
     protected $dates = ['deleted_at'];

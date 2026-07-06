@@ -15,8 +15,6 @@
                 <th>Kode</th>
                 <th>Nama</th>
                 <th>Kategori</th>
-                <th>Ukuran</th>
-                <th>Warna</th>
                 <th>Harga Jual</th>
                 <th>Stok</th>
                 <th>Aksi</th>
@@ -28,8 +26,6 @@
                 <td>{{ $b->kode_barang }}</td>
                 <td>{{ $b->nama }}</td>
                 <td>{{ $b->kategori->nama ?? '-' }}</td>
-                <td>{{ $b->ukuran }}</td>
-                <td>{{ $b->warna }}</td>
                 <td>Rp {{ number_format($b->harga_jual, 0, ',', '.') }}</td>
                 <td>
                     @if($b->stok <= 5)
@@ -51,7 +47,7 @@
                 </td>
             </tr>
             @empty
-            <tr><td colspan="8" class="text-center">Belum ada barang</td></tr>
+            <tr><td colspan="6" class="text-center">Belum ada barang</td></tr>
             @endforelse
         </tbody>
     </table>
