@@ -20,14 +20,6 @@
             <input type="text" name="nama_barang" class="form-control" required>
         </div>
         <div class="form-group">
-            <label class="form-label">Ukuran</label>
-            <input type="text" name="ukuran" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label class="form-label">Warna</label>
-            <input type="text" name="warna" class="form-control" required>
-        </div>
-        <div class="form-group">
             <label class="form-label">Jumlah</label>
             <input type="number" name="jumlah" class="form-control" min="1" required>
         </div>

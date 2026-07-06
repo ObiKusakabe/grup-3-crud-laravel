@@ -29,14 +29,6 @@
             </select>
         </div>
         <div class="form-group">
-            <label class="form-label">Ukuran</label>
-            <input type="text" name="ukuran" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label class="form-label">Warna</label>
-            <input type="text" name="warna" class="form-control" required>
-        </div>
-        <div class="form-group">
             <label class="form-label">Harga Beli</label>
             <input type="number" name="harga_beli" class="form-control" required>
         </div>

@@ -67,8 +67,6 @@ class TransaksiController extends Controller
             DetailTransaksi::create([
                 'kode_transaksi' => $request->kode_transaksi,
                 'nama_barang' => $item['nama_barang'],
-                'ukuran' => $item['ukuran'],
-                'warna' => $item['warna'],
                 'jumlah' => $item['jumlah'],
                 'harga_satuan' => $item['harga_satuan'],
                 'subtotal' => $item['jumlah'] * $item['harga_satuan'],
@@ -77,8 +75,6 @@ class TransaksiController extends Controller
 
             // KURANGI STOK
             Barang::where('nama', $item['nama_barang'])
-                ->where('ukuran', $item['ukuran'])
-                ->where('warna', $item['warna'])
                 ->decrement('stok', $item['jumlah']);
         }
 
@@ -113,8 +109,6 @@ class TransaksiController extends Controller
         $details = DetailTransaksi::where('kode_transaksi', $transaksi->kode_transaksi)->get();
         foreach ($details as $detail) {
             Barang::where('nama', $detail->nama_barang)
-                ->where('ukuran', $detail->ukuran)
-                ->where('warna', $detail->warna)
                 ->increment('stok', $detail->jumlah);
         }
 

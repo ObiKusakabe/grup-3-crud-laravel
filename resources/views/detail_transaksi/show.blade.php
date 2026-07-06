@@ -12,8 +12,6 @@
     <table class="table">
         <tr><th>Kode Transaksi</th><td>{{ $detailTransaksi->kode_transaksi }}</td></tr>
         <tr><th>Barang</th><td>{{ $detailTransaksi->nama_barang }}</td></tr>
-        <tr><th>Ukuran</th><td>{{ $detailTransaksi->ukuran }}</td></tr>
-        <tr><th>Warna</th><td>{{ $detailTransaksi->warna }}</td></tr>
         <tr><th>Jumlah</th><td>{{ $detailTransaksi->jumlah }}</td></tr>
         <tr><th>Harga</th><td>Rp {{ number_format($detailTransaksi->harga_satuan, 0, ',', '.') }}</td></tr>
         <tr><th>Subtotal</th><td>Rp {{ number_format($detailTransaksi->subtotal, 0, ',', '.') }}</td></tr>

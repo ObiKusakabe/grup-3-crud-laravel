@@ -13,8 +13,6 @@ return new class extends Migration
             $table->string('kode_barang')->unique();
             $table->string('nama');
             $table->unsignedBigInteger('kategori_id')->nullable();
-            $table->string('ukuran');
-            $table->string('warna');
             $table->decimal('harga_beli', 15, 2);
             $table->decimal('harga_jual', 15, 2);
             $table->integer('stok')->default(0);

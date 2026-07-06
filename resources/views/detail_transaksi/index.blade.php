@@ -12,7 +12,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Kode TRX</th><th>Barang</th><th>Ukuran</th><th>Warna</th>
+                <th>Kode TRX</th><th>Barang</th>
                 <th>Jumlah</th><th>Harga</th><th>Subtotal</th><th>Jenis</th><th>Aksi</th>
             </tr>
         </thead>
@@ -21,8 +21,6 @@
             <tr>
                 <td>{{ $d->kode_transaksi }}</td>
                 <td>{{ $d->nama_barang }}</td>
-                <td>{{ $d->ukuran }}</td>
-                <td>{{ $d->warna }}</td>
                 <td>{{ $d->jumlah }}</td>
                 <td>Rp {{ number_format($d->harga_satuan, 0, ',', '.') }}</td>
                 <td>Rp {{ number_format($d->subtotal, 0, ',', '.') }}</td>
@@ -46,7 +44,7 @@
                 </td>
             </tr>
             @empty
-            <tr><td colspan="9" class="text-center">Belum ada data</td></tr>
+            <tr><td colspan="7" class="text-center">Belum ada data</td></tr>
             @endforelse
         </tbody>
     </table>

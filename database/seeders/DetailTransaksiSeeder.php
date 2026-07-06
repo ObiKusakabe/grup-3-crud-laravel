@@ -13,8 +13,6 @@ class DetailTransaksiSeeder extends Seeder
             [
                 'kode_transaksi' => 'TRX20240115001',
                 'nama_barang' => 'Kaos Polos Hitam',
-                'ukuran' => 'L',
-                'warna' => 'Hitam',
                 'jumlah' => 2,
                 'harga_satuan' => 75000,
                 'subtotal' => 150000,
@@ -23,8 +21,6 @@ class DetailTransaksiSeeder extends Seeder
             [
                 'kode_transaksi' => 'TRX20240120001',
                 'nama_barang' => 'Kaos Polos Hitam',
-                'ukuran' => 'L',
-                'warna' => 'Hitam',
                 'jumlah' => 1,
                 'harga_satuan' => 75000,
                 'subtotal' => 75000,

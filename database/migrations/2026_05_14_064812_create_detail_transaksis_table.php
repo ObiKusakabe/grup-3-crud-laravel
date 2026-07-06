@@ -10,8 +10,6 @@ return new class extends Migration {
             $table->id();
             $table->string('kode_transaksi');
             $table->string('nama_barang');
-            $table->string('ukuran');
-            $table->string('warna');
             $table->integer('jumlah');
             $table->decimal('harga_satuan', 15, 2);
             $table->decimal('subtotal', 15, 2);

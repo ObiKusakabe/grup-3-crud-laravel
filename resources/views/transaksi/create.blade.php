@@ -43,17 +43,9 @@
                         <select class="form-select select-barang" name="items[0][nama_barang]" required>
                             <option value="">Pilih</option>
                             @foreach($barang as $b)
-                                <option value="{{ $b->nama }}" data-ukuran="{{ $b->ukuran }}" data-warna="{{ $b->warna }}" data-harga="{{ $b->harga_jual }}" data-stok="{{ $b->stok }}">{{ $b->nama }} (Stok: {{ $b->stok }})</option>
+                                <option value="{{ $b->nama }}" data-harga="{{ $b->harga_jual }}" data-stok="{{ $b->stok }}">{{ $b->nama }} (Stok: {{ $b->stok }})</option>
                             @endforeach
                         </select>
-                    </div>
-                    <div style="flex:1;min-width:80px">
-                        <label>Ukuran</label>
-                        <input type="text" class="form-control input-ukuran" name="items[0][ukuran]" readonly>
-                    </div>
-                    <div style="flex:1;min-width:80px">
-                        <label>Warna</label>
-                        <input type="text" class="form-control input-warna" name="items[0][warna]" readonly>
                     </div>
                     <div style="flex:1;min-width:60px">
                         <label>Jumlah</label>
@@ -146,8 +138,6 @@ function attachEvents(row) {
     const select = row.querySelector('.select-barang');
     select.addEventListener('change', function() {
         const opt = this.selectedOptions[0];
-        row.querySelector('.input-ukuran').value = opt.dataset.ukuran||'';
-        row.querySelector('.input-warna').value = opt.dataset.warna||'';
         row.querySelector('.input-harga').value = opt.dataset.harga||'';
         updateSubtotal(row);
     });
