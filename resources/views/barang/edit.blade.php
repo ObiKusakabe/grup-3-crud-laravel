@@ -21,6 +21,10 @@
             <input type="text" name="nama" class="form-control" value="{{ $barang->nama }}" required>
         </div>
         <div class="form-group">
+            <label class="form-label">Ukuran</label>
+            <input type="text" name="ukuran" class="form-control" value="{{ $barang->ukuran }}" required>
+        </div>
+        <div class="form-group">
             <label class="form-label">Kategori</label>
             <input type="text" name="kategori" class="form-control" value="{{ $barang->kategori }}" required>
         </div>

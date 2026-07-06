@@ -349,165 +349,152 @@
         }
     </style>
 
-    {{-- Form membungkus semua konten, action & method disamakan dengan dokumen transaksi lama --}}
-    <form action="{{ route('transaksi.store') }}" method="POST" id="posForm">
-        @csrf
-        <input type="hidden" name="kode_transaksi" value="{{ $kode }}">
-        <input type="hidden" name="tanggal" value="{{ date('Y-m-d') }}">
+    <div class="pos-layout">
+        <!-- PRODUCT SECTION -->
+        <div class="pos-main">
+            <div class="pos-card">
+                <h5>Point of Sale</h5>
 
-        <div class="pos-layout">
-            <!-- PRODUCT SECTION -->
-            <div class="pos-main">
-                <div class="pos-card">
-                    <h5>Point of Sale</h5>
+                <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Cari produk..."
+                    id="search">
 
-                    <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Cari produk..."
-                        id="search">
+                <div class="product-grid" id="product-grid">
+                    @foreach($barang as $b)
+                        <div class="product-list-item product-card"
+                            data-id="{{ $b->id }}"
+                            data-nama="{{ $b->nama }}"
+                            data-harga="{{ $b->harga_jual }}"
+                            data-stok="{{ $b->stok }}">
 
-                    <div class="product-grid" id="product-grid">
-                        @foreach($barang as $b)
-                            <div class="product-list-item product-card"
-                                data-id="{{ $b->id }}"
-                                data-nama="{{ $b->nama }}"
-                                data-harga="{{ $b->harga_jual }}"
-                                data-stok="{{ $b->stok }}">
+                            <div class="product-img-wrap">
+                                <img src="{{ asset('storage/'.$b->foto) }}" alt="{{ $b->nama }}">
+                                <button class="add-btn" title="Tambah ke keranjang">+</button>
+                            </div>
 
-                                <div class="product-img-wrap">
-                                    <img src="{{ asset('storage/'.$b->foto) }}" alt="{{ $b->nama }}">
-                                    <button type="button" class="add-btn" title="Tambah ke keranjang">+</button>
-                                </div>
-
-                                <div class="product-card-body">
-                                    <h6>{{ $b->nama }}</h6>
-                                    <div class="product-meta">
-                                        <span class="stok-badge">{{ $b->stok }} Pcs</span>
-                                        <span class="product-price">Rp {{ number_format($b->harga_jual,0,',','.') }}</span>
-                                    </div>
+                            <div class="product-card-body">
+                                <h6>{{ $b->nama }}</h6>
+                                <div class="product-meta">
+                                    <span class="stok-badge">{{ $b->stok }} Pcs</span>
+                                    <span class="product-price">Rp {{ number_format($b->harga_jual,0,',','.') }}</span>
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
-
-            <!-- CART SECTION -->
-            <aside class="pos-cart">
-                <!-- Header -->
-                <div class="cart-header">
-                    <h5>Keranjang</h5>
-                    <button type="button" class="btn btn-sm btn-link text-secondary p-0" onclick="clearCart()" title="Bersihkan keranjang">Clear</button>
-                </div>
-
-                <!-- Cart Items -->
-                <div class="cart-items-container" id="cart-items">
-                    <div class="cart-empty">Kosong</div>
-                </div>
-
-                <!-- Footer -->
-                <div class="cart-footer">
-                    <!-- Kasir -->
-                    <div class="form-group-compact">
-                        <label>Kasir</label>
-                        <input type="text" class="form-control form-control-sm" id="kasir" name="kasir" required>
-                    </div>
-
-                    <!-- Customer / Member Selection -->
-                    <div class="form-group-compact">
-                        <label>Customer</label>
-                        <select class="form-select form-select-sm" id="customer" name="nama_member">
-                            <option value="" data-diskon="0">Walk-in Customer</option>
-                            @if(isset($member))
-                                @foreach($member as $m)
-                                    <option value="{{ $m->nama }}" data-diskon="{{ $m->diskon_persen }}">{{ $m->nama }} (Diskon {{ $m->diskon_persen }}%)</option>
-                                @endforeach
-                            @endif
-                        </select>
-                    </div>
-
-                    <div style="text-align: right; font-size: 12px; color: #0d6efd; cursor: pointer; margin-bottom: 12px;">
-                        <a href="#" style="text-decoration: none;">+ Tambah customer baru.</a>
-                    </div>
-
-                    <!-- Payment Method -->
-                    <div class="form-group-compact">
-                        <label>Metode pembayaran</label>
-                        <select class="form-select form-select-sm" id="payment_method" name="payment_method">
-                            <option value="cash">Cash</option>
-                            <option value="transfer">Transfer</option>
-                            <option value="card">Kartu Kredit</option>
-                        </select>
-                    </div>
-
-                    <hr class="my-3">
-
-                    <!-- Discount Options (manual, tambahan di luar diskon member) -->
-                    <label style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 8px;">Diskon Tambahan</label>
-                    <div class="discount-options">
-                        <div class="discount-option">
-                            <input type="radio" id="discount-percent" name="discount_type" value="percent" checked>
-                            <label for="discount-percent">Persen (%)</label>
-                        </div>
-                        <div class="discount-option">
-                            <input type="radio" id="discount-nominal" name="discount_type" value="nominal">
-                            <label for="discount-nominal">Nominal (Rp)</label>
-                        </div>
-                    </div>
-
-                    <div class="stepper-group mb-3">
-                        <button type="button" onclick="stepValue('discount_value', -1)">−</button>
-                        <input type="number" id="discount_value" name="discount_value" value="0">
-                        <span class="stepper-unit" id="discount-unit">%</span>
-                    </div>
-
-                    <!-- Payment Amount -->
-                    <div class="form-group-compact">
-                        <label>Jumlah Pembayaran (Tunai)</label>
-                        <div class="stepper-group">
-                            <button type="button" onclick="stepValue('payment_amount', -1000)">−</button>
-                            <input type="number" id="payment_amount" name="tunai" placeholder="0">
-                            <button type="button" onclick="stepValue('payment_amount', 1000)" style="border-left:1px solid #dee2e6;">+</button>
-                        </div>
-                    </div>
-
-                    <!-- Total Section -->
-                    <div class="total-section">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <small style="color: #666;">Subtotal:</small>
-                            <small style="color: #666;" id="subtotal-display">Rp0</small>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <small style="color: #666;">Diskon:</small>
-                            <small style="color: #666;" id="discount-display">Rp0</small>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; border-top: 1px solid #e9ecef; padding-top: 8px;">
-                            <h5 style="margin: 0;">Total:</h5>
-                            <h5 class="total-amount" id="total" style="margin: 0;">Rp0</h5>
-                        </div>
-                    </div>
-
-                    <!-- Change Display -->
-                    <div style="padding: 12px; background: #e8f5e9; border-radius: 8px; margin-bottom: 15px; display: none;" id="change-section">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                            <small style="color: #2e7d32;">Pembayaran:</small>
-                            <small style="color: #2e7d32;" id="payment-display">Rp0</small>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; border-top: 1px solid #4caf50; padding-top: 5px;">
-                            <small style="color: #2e7d32; font-weight: 600;">Kembalian:</small>
-                            <small style="color: #2e7d32; font-weight: 600;" id="change-display">Rp0</small>
-                        </div>
-                    </div>
-
-                    <!-- Save Button -->
-                    <button type="button" class="btn btn-success w-100 fw-bold" id="saveBtn">
-                        Simpan
-                    </button>
-                </div>
-            </aside>
         </div>
-    </form>
+
+        <!-- CART SECTION -->
+        <aside class="pos-cart">
+            <!-- Header -->
+            <div class="cart-header">
+                <h5>Keranjang</h5>
+                <button class="btn btn-sm btn-link text-secondary p-0" onclick="clearCart()" title="Bersihkan keranjang">Clear</button>
+            </div>
+
+            <!-- Cart Items -->
+            <div class="cart-items-container" id="cart-items">
+                <div class="cart-empty">Kosong</div>
+            </div>
+
+            <!-- Footer -->
+            <div class="cart-footer">
+                <!-- Customer Selection -->
+                <div class="form-group-compact">
+                    <label>Customer</label>
+                    <select class="form-select form-select-sm" id="customer">
+                        <option value="">Walk-in Customer</option>
+                        @if(isset($members))
+                            @foreach($members as $member)
+                                <option value="{{ $member->id }}">{{ $member->nama }}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+
+                <div style="text-align: right; font-size: 12px; color: #0d6efd; cursor: pointer; margin-bottom: 12px;">
+                    <a href="#" style="text-decoration: none;">+ Tambah customer baru.</a>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="form-group-compact">
+                    <label>Metode pembayaran</label>
+                    <select class="form-select form-select-sm" id="payment_method">
+                        <option value="cash">Cash</option>
+                        <option value="transfer">Transfer</option>
+                        <option value="card">Kartu Kredit</option>
+                    </select>
+                </div>
+
+                <hr class="my-3">
+
+                <!-- Discount Options -->
+                <label style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 8px;">Diskon</label>
+                <div class="discount-options">
+                    <div class="discount-option">
+                        <input type="radio" id="discount-percent" name="discount_type" value="percent" checked>
+                        <label for="discount-percent">Persen (%)</label>
+                    </div>
+                    <div class="discount-option">
+                        <input type="radio" id="discount-nominal" name="discount_type" value="nominal">
+                        <label for="discount-nominal">Nominal (Rp)</label>
+                    </div>
+                </div>
+
+                <div class="stepper-group mb-3">
+                    <button type="button" onclick="stepValue('discount_value', -1)">−</button>
+                    <input type="number" id="discount_value" value="0">
+                    <span class="stepper-unit" id="discount-unit">%</span>
+                </div>
+
+                <!-- Payment Amount -->
+                <div class="form-group-compact">
+                    <label>Jumlah Pembayaran</label>
+                    <div class="stepper-group">
+                        <button type="button" onclick="stepValue('payment_amount', -1000)">−</button>
+                        <input type="number" id="payment_amount" placeholder="0">
+                        <button type="button" onclick="stepValue('payment_amount', 1000)" style="border-left:1px solid #dee2e6;">+</button>
+                    </div>
+                </div>
+
+                <!-- Total Section -->
+                <div class="total-section">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <small style="color: #666;">Subtotal:</small>
+                        <small style="color: #666;" id="subtotal-display">Rp0</small>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <small style="color: #666;">Diskon:</small>
+                        <small style="color: #666;" id="discount-display">Rp0</small>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; border-top: 1px solid #e9ecef; padding-top: 8px;">
+                        <h5 style="margin: 0;">Total:</h5>
+                        <h5 class="total-amount" id="total" style="margin: 0;">Rp0</h5>
+                    </div>
+                </div>
+
+                <!-- Change Display -->
+                <div style="padding: 12px; background: #e8f5e9; border-radius: 8px; margin-bottom: 15px; display: none;" id="change-section">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <small style="color: #2e7d32;">Pembayaran:</small>
+                        <small style="color: #2e7d32;" id="payment-display">Rp0</small>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; border-top: 1px solid #4caf50; padding-top: 5px;">
+                        <small style="color: #2e7d32; font-weight: 600;">Kembalian:</small>
+                        <small style="color: #2e7d32; font-weight: 600;" id="change-display">Rp0</small>
+                    </div>
+                </div>
+
+                <!-- Save Button -->
+                <button class="btn btn-success w-100 fw-bold" id="saveBtn">
+                    Simpan
+                </button>
+            </div>
+        </aside>
+    </div>
 
     <script>
         let cart = [];
@@ -573,15 +560,15 @@
                     <div class="cart-item">
                         <div class="cart-item-name">${item.nama}</div>
                         <div class="cart-item-qty">
-                            <button type="button" class="btn btn-sm btn-light" onclick="decreaseQty(${index})">-</button>
+                            <button class="btn btn-sm btn-light" onclick="decreaseQty(${index})">-</button>
                             <input type="text" class="form-control form-control-sm text-center" value="${item.qty}" style="width: 35px; border: none; padding: 2px;" readonly>
-                            <button type="button" class="btn btn-sm btn-light" onclick="increaseQty(${index})">+</button>
+                            <button class="btn btn-sm btn-light" onclick="increaseQty(${index})">+</button>
                         </div>
                         <div style="text-align: right; min-width: 80px;">
                             <div style="font-size: 12px; color: #999;">Rp${number_format(item.harga)}</div>
                             <div style="font-weight: 600;">Rp${number_format(item.harga * item.qty)}</div>
                         </div>
-                        <button type="button" class="cart-item-remove" onclick="removeItem(${index})">×</button>
+                        <button class="cart-item-remove" onclick="removeItem(${index})">×</button>
                     </div>
                 `).join('');
             }
@@ -620,13 +607,6 @@
             renderCart();
         }
 
-        // Ambil diskon persen dari member yang dipilih
-        function getMemberDiskonPersen() {
-            const select = document.getElementById('customer');
-            const opt = select.selectedOptions[0];
-            return opt ? (parseFloat(opt.dataset.diskon) || 0) : 0;
-        }
-
         // Update total
         function updateTotal() {
             let subtotal = cart.reduce((sum, item) => sum + (item.harga * item.qty), 0);
@@ -634,22 +614,18 @@
             const discountType = document.querySelector('input[name="discount_type"]:checked').value;
             const discountValue = parseInt(document.getElementById('discount_value').value) || 0;
 
-            let manualDiscount = 0;
+            let discount = 0;
             if (discountType === 'percent') {
-                manualDiscount = Math.round(subtotal * discountValue / 100);
+                discount = Math.round(subtotal * discountValue / 100);
             } else {
-                manualDiscount = discountValue;
+                discount = discountValue;
             }
 
-            const memberDiskonPersen = getMemberDiskonPersen();
-            const memberDiscount = Math.round(subtotal * memberDiskonPersen / 100);
-
-            const totalDiscount = manualDiscount + memberDiscount;
-            const total = subtotal - totalDiscount;
+            const total = subtotal - discount;
 
             // Update display
             document.getElementById('subtotal-display').textContent = formatRupiah(subtotal);
-            document.getElementById('discount-display').textContent = formatRupiah(totalDiscount);
+            document.getElementById('discount-display').textContent = formatRupiah(discount);
             document.getElementById('total').textContent = formatRupiah(total);
 
             // Update kembalian jika ada input pembayaran
@@ -679,7 +655,7 @@
             }
         }
 
-        // Event untuk diskon manual
+        // Event untuk diskon
         document.querySelectorAll('input[name="discount_type"]').forEach(radio => {
             radio.addEventListener('change', function() {
                 const unit = document.getElementById('discount-unit');
@@ -689,9 +665,21 @@
         });
 
         document.getElementById('discount_value').addEventListener('input', updateTotal);
-        document.getElementById('customer').addEventListener('change', updateTotal);
+
         document.getElementById('payment_amount').addEventListener('input', function() {
-            updateTotal();
+            const subtotal = cart.reduce((sum, item) => sum + (item.harga * item.qty), 0);
+            const discountType = document.querySelector('input[name="discount_type"]:checked').value;
+            const discountValue = parseInt(document.getElementById('discount_value').value) || 0;
+
+            let discount = 0;
+            if (discountType === 'percent') {
+                discount = Math.round(subtotal * discountValue / 100);
+            } else {
+                discount = discountValue;
+            }
+
+            const total = subtotal - discount;
+            updateChange(total);
         });
 
         // Bersihkan keranjang
@@ -702,68 +690,68 @@
             }
         }
 
-        // Hapus input hidden item lama sebelum generate ulang
-        function clearDynamicItemInputs(form) {
-            form.querySelectorAll('.dynamic-item-input').forEach(el => el.remove());
-        }
-
-        // Buat input hidden untuk 1 item
-        function addHiddenInput(form, name, value) {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = name;
-            input.value = value;
-            input.classList.add('dynamic-item-input');
-            form.appendChild(input);
-        }
-
-        // Simpan transaksi -> submit form biasa (bukan fetch), action & fields disamakan dgn form transaksi lama
+        // Simpan transaksi
         document.getElementById('saveBtn').addEventListener('click', function() {
             if (cart.length === 0) {
                 alert('Keranjang masih kosong');
                 return;
             }
 
-            const kasir = document.getElementById('kasir').value.trim();
-            if (!kasir) {
-                alert('Nama kasir wajib diisi');
-                document.getElementById('kasir').focus();
-                return;
-            }
-
-            const paymentMethod = document.getElementById('payment_method').value;
-            const paymentAmount = parseInt(document.getElementById('payment_amount').value) || 0;
+            const customer_id = document.getElementById('customer').value || null;
+            const payment_method = document.getElementById('payment_method').value;
+            const payment_amount = parseInt(document.getElementById('payment_amount').value) || 0;
+            const discount_type = document.querySelector('input[name="discount_type"]:checked').value;
+            const discount_value = parseInt(document.getElementById('discount_value').value) || 0;
 
             const subtotal = cart.reduce((sum, item) => sum + (item.harga * item.qty), 0);
-            const discountType = document.querySelector('input[name="discount_type"]:checked').value;
-            const discountValue = parseInt(document.getElementById('discount_value').value) || 0;
-            let manualDiscount = 0;
-            if (discountType === 'percent') {
-                manualDiscount = Math.round(subtotal * discountValue / 100);
+            let discount = 0;
+            if (discount_type === 'percent') {
+                discount = Math.round(subtotal * discount_value / 100);
             } else {
-                manualDiscount = discountValue;
+                discount = discount_value;
             }
-            const memberDiskonPersen = getMemberDiskonPersen();
-            const memberDiscount = Math.round(subtotal * memberDiskonPersen / 100);
-            const total = subtotal - manualDiscount - memberDiscount;
 
-            // Validasi pembayaran cash
-            if (paymentMethod === 'cash' && paymentAmount < total) {
+            const total = subtotal - discount;
+
+            // Validasi pembayaran
+            if (payment_method === 'cash' && payment_amount < total) {
                 alert('Jumlah pembayaran kurang');
                 return;
             }
 
-            const form = document.getElementById('posForm');
-            clearDynamicItemInputs(form);
+            // Siapkan data untuk dikirim ke server
+            const data = {
+                customer_id: customer_id,
+                payment_method: payment_method,
+                payment_amount: payment_amount,
+                discount_type: discount_type,
+                discount_value: discount_value,
+                discount_amount: discount,
+                subtotal: subtotal,
+                total: total,
+                items: cart.map(item => ({
+                    barang_id: item.id,
+                    qty: item.qty,
+                    harga: item.harga
+                }))
+            };
 
-            cart.forEach((item, i) => {
-                addHiddenInput(form, `items[${i}][nama_barang]`, item.nama);
-                addHiddenInput(form, `items[${i}][jumlah]`, item.qty);
-                addHiddenInput(form, `items[${i}][harga_satuan]`, item.harga);
-            });
+            console.log('Data transaksi:', data);
 
-            // Submit form seperti biasa (server-side render / redirect), sama seperti form transaksi lama
-            form.submit();
+            // TODO: Kirim ke server dengan AJAX/fetch
+            // fetch('/transaksi', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            //     },
+            //     body: JSON.stringify(data)
+            // }).then(response => response.json())
+            //   .then(data => {
+            //       alert('Transaksi berhasil disimpan');
+            //       cart = [];
+            //       renderCart();
+            //   });
         });
     </script>
 @endsection

@@ -20,6 +20,10 @@
             <input type="text" name="nama" class="form-control" required>
         </div>
         <div class="form-group">
+            <label class="form-label">Ukuran</label>
+            <input type="text" name="ukuran" class="form-control" required>
+        </div>
+        <div class="form-group">
             <label class="form-label">Kategori</label>
             <select name="kategori_id" class="form-control" required>
                 <option value="">-- Pilih Kategori --</option>

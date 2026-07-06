@@ -14,6 +14,7 @@
             <tr>
                 <th>Kode</th>
                 <th>Nama</th>
+                <th>Ukuran</th>
                 <th>Kategori</th>
                 <th>Harga Jual</th>
                 <th>Stok</th>
@@ -25,6 +26,7 @@
             <tr>
                 <td>{{ $b->kode_barang }}</td>
                 <td>{{ $b->nama }}</td>
+                <td>{{ $b->ukuran }}</td>
                 <td>{{ $b->kategori->nama ?? '-' }}</td>
                 <td>Rp {{ number_format($b->harga_jual, 0, ',', '.') }}</td>
                 <td>
