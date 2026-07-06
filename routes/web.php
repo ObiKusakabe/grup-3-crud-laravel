@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\StokMasukController;
 use App\Http\Controllers\TransaksiController;
@@ -11,6 +12,10 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\DetailTransaksiController;
 
+// Dashboard
+Route::resource('dashboard', DashboardController::class);
+
+// Barang
 Route::resource('barang', BarangController::class);
 Route::resource('stok-masuk', StokMasukController::class);
 Route::resource('transaksi', TransaksiController::class);
