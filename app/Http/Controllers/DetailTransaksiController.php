@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\DetailTransaksi;
 use App\Models\Barang;
+use App\Models\ProductStock;
+use App\Models\StockMovement;
 use Illuminate\Http\Request;
 
 class DetailTransaksiController extends Controller
@@ -33,10 +35,40 @@ class DetailTransaksiController extends Controller
             'jenis' => $request->jenis,
             'alasan_retur' => $request->alasan_retur
         ]);
-        if ($request->jenis == 'jual') {
-            Barang::where('nama', $request->nama_barang)->decrement('stok', $request->jumlah);
-        } else {
-            Barang::where('nama', $request->nama_barang)->increment('stok', $request->jumlah);
+        $activeBranchId = session('active_branch_id', 1);
+        $barang = Barang::where('nama', $request->nama_barang)->first();
+        
+        if ($barang) {
+            $productStock = ProductStock::firstOrCreate(
+                [
+                    'product_id' => $barang->id,
+                    'branch_id' => $activeBranchId
+                ],
+                ['stock' => 0, 'min_stock' => 0]
+            );
+            
+            if ($request->jenis == 'jual') {
+                $productStock->stock -= $request->jumlah;
+                StockMovement::create([
+                    'product_id' => $barang->id,
+                    'branch_id' => $activeBranchId,
+                    'type' => 'OUT',
+                    'qty' => $request->jumlah,
+                    'reason' => 'Penjualan Manual',
+                    'note' => 'Detail Transaksi: ' . $request->kode_transaksi
+                ]);
+            } else {
+                $productStock->stock += $request->jumlah;
+                StockMovement::create([
+                    'product_id' => $barang->id,
+                    'branch_id' => $activeBranchId,
+                    'type' => 'IN',
+                    'qty' => $request->jumlah,
+                    'reason' => 'Retur Manual',
+                    'note' => 'Detail Transaksi: ' . $request->kode_transaksi
+                ]);
+            }
+            $productStock->save();
         }
         return redirect()->route('detail-transaksi.index')->with('success', 'Detail berhasil ditambahkan');
     }
@@ -53,10 +85,22 @@ class DetailTransaksiController extends Controller
         ]);
         $jumlahLama = $detailTransaksi->jumlah;
         $jenisLama = $detailTransaksi->jenis;
-        if ($jenisLama == 'jual') {
-            Barang::where('nama', $detailTransaksi->nama_barang)->increment('stok', $jumlahLama);
-        } else {
-            Barang::where('nama', $detailTransaksi->nama_barang)->decrement('stok', $jumlahLama);
+        $activeBranchId = session('active_branch_id', 1);
+        $barang = Barang::where('nama', $detailTransaksi->nama_barang)->first();
+        
+        if ($barang) {
+            $productStock = ProductStock::where('product_id', $barang->id)
+                ->where('branch_id', $activeBranchId)
+                ->first();
+            
+            if ($productStock) {
+                if ($jenisLama == 'jual') {
+                    $productStock->stock += $jumlahLama;
+                } else {
+                    $productStock->stock -= $jumlahLama;
+                }
+                $productStock->save();
+            }
         }
         $subtotal = $request->jumlah * $detailTransaksi->harga_satuan;
         $detailTransaksi->update([
@@ -65,18 +109,72 @@ class DetailTransaksiController extends Controller
             'jenis' => $request->jenis,
             'alasan_retur' => $request->alasan_retur
         ]);
-        if ($request->jenis == 'jual') {
-            Barang::where('nama', $detailTransaksi->nama_barang)->decrement('stok', $request->jumlah);
-        } else {
-            Barang::where('nama', $detailTransaksi->nama_barang)->increment('stok', $request->jumlah);
+        
+        if ($barang) {
+            $productStock = ProductStock::where('product_id', $barang->id)
+                ->where('branch_id', $activeBranchId)
+                ->first();
+            
+            if ($productStock) {
+                if ($request->jenis == 'jual') {
+                    $productStock->stock -= $request->jumlah;
+                    StockMovement::create([
+                        'product_id' => $barang->id,
+                        'branch_id' => $activeBranchId,
+                        'type' => 'OUT',
+                        'qty' => $request->jumlah,
+                        'reason' => 'Update Penjualan Manual',
+                        'note' => 'Update Detail Transaksi: ' . $detailTransaksi->kode_transaksi
+                    ]);
+                } else {
+                    $productStock->stock += $request->jumlah;
+                    StockMovement::create([
+                        'product_id' => $barang->id,
+                        'branch_id' => $activeBranchId,
+                        'type' => 'IN',
+                        'qty' => $request->jumlah,
+                        'reason' => 'Update Retur Manual',
+                        'note' => 'Update Detail Transaksi: ' . $detailTransaksi->kode_transaksi
+                    ]);
+                }
+                $productStock->save();
+            }
         }
         return redirect()->route('detail-transaksi.index')->with('success', 'Detail berhasil diupdate');
     }
     public function destroy(DetailTransaksi $detailTransaksi) {
-        if ($detailTransaksi->jenis == 'jual') {
-            Barang::where('nama', $detailTransaksi->nama_barang)->increment('stok', $detailTransaksi->jumlah);
-        } else {
-            Barang::where('nama', $detailTransaksi->nama_barang)->decrement('stok', $detailTransaksi->jumlah);
+        $activeBranchId = session('active_branch_id', 1);
+        $barang = Barang::where('nama', $detailTransaksi->nama_barang)->first();
+        
+        if ($barang) {
+            $productStock = ProductStock::where('product_id', $barang->id)
+                ->where('branch_id', $activeBranchId)
+                ->first();
+            
+            if ($productStock) {
+                if ($detailTransaksi->jenis == 'jual') {
+                    $productStock->stock += $detailTransaksi->jumlah;
+                    StockMovement::create([
+                        'product_id' => $barang->id,
+                        'branch_id' => $activeBranchId,
+                        'type' => 'IN',
+                        'qty' => $detailTransaksi->jumlah,
+                        'reason' => 'Hapus Penjualan Manual',
+                        'note' => 'Hapus Detail Transaksi: ' . $detailTransaksi->kode_transaksi
+                    ]);
+                } else {
+                    $productStock->stock -= $detailTransaksi->jumlah;
+                    StockMovement::create([
+                        'product_id' => $barang->id,
+                        'branch_id' => $activeBranchId,
+                        'type' => 'OUT',
+                        'qty' => $detailTransaksi->jumlah,
+                        'reason' => 'Hapus Retur Manual',
+                        'note' => 'Hapus Detail Transaksi: ' . $detailTransaksi->kode_transaksi
+                    ]);
+                }
+                $productStock->save();
+            }
         }
         $detailTransaksi->delete();
         return redirect()->route('detail-transaksi.index')->with('success', 'Detail berhasil dihapus');

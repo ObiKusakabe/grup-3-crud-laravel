@@ -74,8 +74,31 @@ class TransaksiController extends Controller
             ]);
 
             // KURANGI STOK
-            Barang::where('nama', $item['nama_barang'])
-                ->decrement('stok', $item['jumlah']);
+            $activeBranchId = session('active_branch_id', 1);
+            $barang = Barang::where('nama', $item['nama_barang'])->first();
+            
+            if ($barang) {
+                $productStock = ProductStock::firstOrCreate(
+                    [
+                        'product_id' => $barang->id,
+                        'branch_id' => $activeBranchId
+                    ],
+                    ['stock' => 0, 'min_stock' => 0]
+                );
+                
+                $productStock->stock -= $item['jumlah'];
+                $productStock->save();
+                
+                // Create stock movement record
+                StockMovement::create([
+                    'product_id' => $barang->id,
+                    'branch_id' => $activeBranchId,
+                    'type' => 'OUT',
+                    'qty' => $item['jumlah'],
+                    'reason' => 'Penjualan',
+                    'note' => 'Transaksi: ' . $request->kode_transaksi
+                ]);
+            }
         }
 
         return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dibuat');
@@ -106,10 +129,31 @@ class TransaksiController extends Controller
     public function destroy(Transaksi $transaksi)
     {
         // KEMBALIKAN STOK SEMUA ITEM
+        $activeBranchId = session('active_branch_id', 1);
         $details = DetailTransaksi::where('kode_transaksi', $transaksi->kode_transaksi)->get();
         foreach ($details as $detail) {
-            Barang::where('nama', $detail->nama_barang)
-                ->increment('stok', $detail->jumlah);
+            $barang = Barang::where('nama', $detail->nama_barang)->first();
+            
+            if ($barang) {
+                $productStock = ProductStock::where('product_id', $barang->id)
+                    ->where('branch_id', $activeBranchId)
+                    ->first();
+                
+                if ($productStock) {
+                    $productStock->stock += $detail->jumlah;
+                    $productStock->save();
+                    
+                    // Create stock movement record
+                    StockMovement::create([
+                        'product_id' => $barang->id,
+                        'branch_id' => $activeBranchId,
+                        'type' => 'IN',
+                        'qty' => $detail->jumlah,
+                        'reason' => 'Batal Transaksi',
+                        'note' => 'Transaksi dibatalkan: ' . $transaksi->kode_transaksi
+                    ]);
+                }
+            }
         }
 
         DetailTransaksi::where('kode_transaksi', $transaksi->kode_transaksi)->delete();

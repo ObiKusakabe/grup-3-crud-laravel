@@ -23,11 +23,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
+            BranchSeeder::class,
             KategoriBarangSeeder::class,
             SupplierSeeder::class,
             MemberSeeder::class,
             BarangSeeder::class,
-            StokMasukSeeder::class,
             TransaksiSeeder::class,
             DetailTransaksiSeeder::class,
         ]);

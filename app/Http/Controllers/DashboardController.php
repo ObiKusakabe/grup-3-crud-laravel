@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\Transaksi;
+use App\Models\ProductStock;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,10 @@ class DashboardController extends Controller
             ->count();
 
         $totalProduk = Barang::count();
-        $stokRendah = Barang::where('stok', '<=', 5)->count();
+        $activeBranchId = session('active_branch_id', 1);
+        $stokRendah = ProductStock::where('branch_id', $activeBranchId)
+            ->where('stock', '<=', 5)
+            ->count();
 
         $transaksiTerbaru = Transaksi::where('status', 'Selesai')
             ->orderBy('tanggal', 'desc')

@@ -14,10 +14,9 @@
             <tr>
                 <th>Kode</th>
                 <th>Nama</th>
-                <th>Ukuran</th>
                 <th>Kategori</th>
                 <th>Harga Jual</th>
-                <th>Stok</th>
+                <th>Stok (Cabang Aktif)</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -26,14 +25,14 @@
             <tr>
                 <td>{{ $b->kode_barang }}</td>
                 <td>{{ $b->nama }}</td>
-                <td>{{ $b->ukuran }}</td>
                 <td>{{ $b->kategori->nama ?? '-' }}</td>
                 <td>Rp {{ number_format($b->harga_jual, 0, ',', '.') }}</td>
                 <td>
-                    @if($b->stok <= 5)
-                        <span class="badge badge-danger">{{ $b->stok }}</span>
+                    @php $stock = $b->getStockForBranch(session('active_branch_id', 1)); @endphp
+                    @if($stock <= 5)
+                        <span class="badge badge-danger">{{ $stock }}</span>
                     @else
-                        <span class="badge badge-success">{{ $b->stok }}</span>
+                        <span class="badge badge-success">{{ $stock }}</span>
                     @endif
                 </td>
                 <td>
