@@ -26,6 +26,7 @@ class BarangController extends Controller
         $request->validate([
             'kode_barang' => 'required|unique:barangs',
             'nama' => 'required',
+            'ukuran' => 'required',
             'kategori_id' => 'required|exists:kategori_barang,id',
             'harga_beli' => 'required|numeric|min:0',
             'harga_jual' => 'required|numeric|min:0',
@@ -59,6 +60,7 @@ class BarangController extends Controller
         $request->validate([
             'kode_barang' => 'required|unique:barangs,kode_barang,' . $barang->id,
             'nama' => 'required',
+            'ukuran' => 'required',
             'kategori_id' => 'required|exists:kategori_barang,id',
             'harga_beli' => 'required|numeric|min:0',
             'harga_jual' => 'required|numeric|min:0',
