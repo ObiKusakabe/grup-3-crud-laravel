@@ -14,11 +14,9 @@ class Barang extends Model
     protected $fillable = [
         'kode_barang',
         'nama',
-        'ukuran',
         'kategori_id',
         'harga_beli',
         'harga_jual',
-        'stok',
         'foto'
     ];
 
@@ -27,5 +25,20 @@ class Barang extends Model
     public function kategori()
     {
         return $this->belongsTo(KategoriBarang::class, 'kategori_id');
+    }
+
+    public function productStocks()
+    {
+        return $this->hasMany(ProductStock::class, 'product_id');
+    }
+
+    public function stockMovements()
+    {
+        return $this->hasMany(StockMovement::class, 'product_id');
+    }
+
+    public function getStockForBranch(int $branchId)
+    {
+        return $this->productStocks()->where('branch_id', $branchId)->first()?->stock ?? 0;
     }
 }

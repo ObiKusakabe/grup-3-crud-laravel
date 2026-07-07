@@ -13,7 +13,7 @@
         <ul class="sidebar-menu">
             <li><a href="{{ route('dashboard.index') }}" class="{{ request()->routeIs('dashboard.*') ? 'active' : '' }}"><i data-lucide="package" style="width: 18px; margin-right: 8px;"></i> Dashboard</a></li>
             <li><a href="{{ route('barang.index') }}" class="{{ request()->routeIs('barang.*') ? 'active' : '' }}"><i data-lucide="package" style="width: 18px; margin-right: 8px;"></i> Barang</a></li>
-            <li><a href="{{ route('stok-masuk.index') }}" class="{{ request()->routeIs('stok-masuk.*') ? 'active' : '' }}"><i data-lucide="inbox" style="width: 18px; margin-right: 8px;"></i> Stok Masuk</a></li>
+            <li><a href="{{ route('stock-management.index') }}" class="{{ request()->routeIs('stock-management.*') ? 'active' : '' }}"><i data-lucide="inbox" style="width: 18px; margin-right: 8px;"></i> Manajemen Stok</a></li>
             <li><a href="{{ route('transaksi.index') }}" class="{{ request()->routeIs('transaksi.*') ? 'active' : '' }}"><i data-lucide="shopping-cart" style="width: 18px; margin-right: 8px;"></i> Transaksi</a></li>
             <li><a href="{{ route('kategori-barang.index') }}" class="{{ request()->routeIs('kategori-barang.*') ? 'active' : '' }}"><i data-lucide="tag" style="width: 18px; margin-right: 8px;"></i> Kategori</a></li>
             <li><a href="{{ route('supplier.index') }}" class="{{ request()->routeIs('supplier.*') ? 'active' : '' }}"><i data-lucide="building-2" style="width: 18px; margin-right: 8px;"></i> Supplier</a></li>
@@ -23,6 +23,21 @@
     </div>
 
     <div class="main-content">
+        <div class="top-bar">
+            <div class="branch-selector">
+                <form action="{{ route('stock-management.set-branch') }}" method="POST">
+                    @csrf
+                    <label>Cabang:</label>
+                    <select name="branch_id" class="form-select" style="width: auto; display: inline-block;" onchange="this.form.submit()">
+                        @foreach(\App\Models\Branch::all() as $branch)
+                            <option value="{{ $branch->id }}" {{ session('active_branch_id', 1) == $branch->id ? 'selected' : '' }}>
+                                {{ $branch->name }} ({{ $branch->code }})
+                            </option>
+                        @endforeach
+                    </select>
+                </form>
+            </div>
+        </div>
         @yield('content')
     </div>
 @stack('scripts')
