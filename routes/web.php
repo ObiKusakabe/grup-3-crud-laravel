@@ -9,6 +9,12 @@ use App\Http\Controllers\KategoriBarangController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\DetailTransaksiController;
+use App\Http\Controllers\AuthController;
+
+// Login/auth
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Dashboard
 Route::resource('dashboard', DashboardController::class);
