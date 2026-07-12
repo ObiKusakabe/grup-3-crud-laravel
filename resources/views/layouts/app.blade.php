@@ -37,15 +37,49 @@
                     </select>
                 </form>
             </div>
+
+            <div class="account-menu">
+                <button type="button" class="account-trigger" onclick="toggleAccountMenu()">
+                    <span class="account-avatar">{{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}</span>
+                    <span class="account-name">{{ auth()->user()->name ?? 'User' }}</span>
+                    <i data-lucide="chevron-down" style="width: 16px;"></i>
+                </button>
+
+                <div class="account-dropdown" id="accountDropdown">
+                    <div class="account-dropdown-header">
+                        <p class="account-dropdown-name">{{ auth()->user()->name ?? 'User' }}</p>
+                        <p class="account-dropdown-email">{{ auth()->user()->email ?? '' }}</p>
+                    </div>
+                    <form method="POST" action="{{ url('/logout') }}">
+                        @csrf
+                        <button type="submit" class="account-dropdown-logout">
+                            <i data-lucide="log-out" style="width: 16px; margin-right: 8px;"></i> Logout
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
         @yield('content')
     </div>
 @stack('scripts')
 
 <script>
-    // Pass session data to JavaScript
+    // Pass session data ke JavaScript
     window.sessionSuccess = "{{ session('success') ?? '' }}";
     window.sessionError = "{{ session('error') ?? '' }}";
+
+    function toggleAccountMenu() {
+        document.getElementById('accountDropdown').classList.toggle('open');
+    }
+
+    // Tutup dropdown kalau klik di luar area
+    document.addEventListener('click', function (e) {
+        const menu = document.querySelector('.account-menu');
+        const dropdown = document.getElementById('accountDropdown');
+        if (menu && !menu.contains(e.target)) {
+            dropdown.classList.remove('open');
+        }
+    });
 
     // Initialize Lucide icons
     lucide.createIcons();
