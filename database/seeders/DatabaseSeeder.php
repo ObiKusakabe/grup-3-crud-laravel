@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,11 +16,44 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Create admin user first
+        $adminUser = User::factory()->create([
+            'name' => 'Admin Test',
+            'email' => 'admin@test.com',
+            'role' => 'admin',
+        ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Create company for admin
+        $company = Company::create([
+            'name' => 'PT Test Fashion',
+            'email' => 'info@testfashion.com',
+            'address' => 'Jl. Fashion No. 123, Jakarta',
+            'phone' => '021-123-4567',
+            'admin_user_id' => $adminUser->id,
+        ]);
+
+        // Update admin user with company_id
+        $adminUser->update(['company_id' => $company->id]);
+
+        // Create employee users
+        User::create([
+            'name' => 'Kasir Test',
+            'email' => 'kasir@test.com',
+            'password' => \Illuminate\Support\Facades\Hash::make('password'),
+            'role' => 'pos',
+            'company_id' => $company->id,
+            'created_by' => $adminUser->id,
+            'email_verified_at' => now(),
+        ]);
+
+        User::create([
+            'name' => 'Inventaris Test',
+            'email' => 'inventaris@test.com',
+            'password' => \Illuminate\Support\Facades\Hash::make('password'),
+            'role' => 'inventaris',
+            'company_id' => $company->id,
+            'created_by' => $adminUser->id,
+            'email_verified_at' => now(),
         ]);
 
         $this->call([

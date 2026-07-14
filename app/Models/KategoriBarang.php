@@ -11,7 +11,7 @@ class KategoriBarang extends Model
 
     protected $table = 'kategori_barang';
 
-    protected $fillable = ['nama', 'keterangan'];
+    protected $fillable = ['nama', 'keterangan', 'company_id'];
 
     protected $dates = ['deleted_at'];
 

@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('branches', function (Blueprint $table) {
+        Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('code');
-            $table->boolean('is_active')->default(true);
+            $table->string('email')->unique();
+            $table->text('address')->nullable();
+            $table->string('phone')->nullable();
+            $table->foreignId('admin_user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('branches');
+        Schema::dropIfExists('companies');
     }
 };

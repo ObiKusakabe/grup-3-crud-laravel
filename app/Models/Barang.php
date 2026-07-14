@@ -17,7 +17,8 @@ class Barang extends Model
         'kategori_id',
         'harga_beli',
         'harga_jual',
-        'foto'
+        'foto',
+        'company_id'
     ];
 
     protected $dates = ['deleted_at'];

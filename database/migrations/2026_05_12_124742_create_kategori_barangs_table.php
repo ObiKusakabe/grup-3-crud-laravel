@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('kategori_barang', function (Blueprint $table) {
             $table->id();
-            $table->string('nama')->unique();
+            $table->string('nama');
             $table->text('keterangan')->nullable();
             $table->softDeletes();
             $table->timestamps();

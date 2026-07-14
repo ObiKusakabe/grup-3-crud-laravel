@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Company;
 use Illuminate\Database\Seeder;
 use App\Models\Member;
 
@@ -9,6 +10,9 @@ class MemberSeeder extends Seeder
 {
     public function run(): void
     {
+        $company = Company::first();
+        if (!$company) return;
+
         $members = [
             ['nama' => 'Budi Santoso', 'telepon' => '081234567890', 'diskon_persen' => 10],
             ['nama' => 'Siti Aminah', 'telepon' => '081234567891', 'diskon_persen' => 15],
@@ -18,6 +22,7 @@ class MemberSeeder extends Seeder
         ];
 
         foreach ($members as $member) {
+            $member['company_id'] = $company->id;
             Member::create($member);
         }
     }

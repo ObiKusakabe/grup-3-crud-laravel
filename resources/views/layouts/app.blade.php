@@ -4,33 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'POS Fashion')</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="sidebar-brand">POS <span>FASHION</span></div>
+    <!-- Mobile Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <span>POS <strong>FASHION</strong></span>
+            <button class="sidebar-toggle" id="sidebarToggle" title="Toggle Sidebar" onclick="toggleSidebar()">
+                <i data-lucide="panel-left-close" id="toggleIcon" style="width: 18px;"></i>
+            </button>
+        </div>
         <ul class="sidebar-menu">
-            <li><a href="{{ route('dashboard.index') }}" class="{{ request()->routeIs('dashboard.*') ? 'active' : '' }}"><i data-lucide="package" style="width: 18px; margin-right: 8px;"></i> Dashboard</a></li>
-            <li><a href="{{ route('barang.index') }}" class="{{ request()->routeIs('barang.*') ? 'active' : '' }}"><i data-lucide="package" style="width: 18px; margin-right: 8px;"></i> Barang</a></li>
-            <li><a href="{{ route('stock-management.index') }}" class="{{ request()->routeIs('stock-management.*') ? 'active' : '' }}"><i data-lucide="inbox" style="width: 18px; margin-right: 8px;"></i> Manajemen Stok</a></li>
-            <li><a href="{{ route('transaksi.index') }}" class="{{ request()->routeIs('transaksi.*') ? 'active' : '' }}"><i data-lucide="shopping-cart" style="width: 18px; margin-right: 8px;"></i> Transaksi</a></li>
-            <li><a href="{{ route('kategori-barang.index') }}" class="{{ request()->routeIs('kategori-barang.*') ? 'active' : '' }}"><i data-lucide="tag" style="width: 18px; margin-right: 8px;"></i> Kategori</a></li>
-            <li><a href="{{ route('supplier.index') }}" class="{{ request()->routeIs('supplier.*') ? 'active' : '' }}"><i data-lucide="building-2" style="width: 18px; margin-right: 8px;"></i> Supplier</a></li>
-            <li><a href="{{ route('member.index') }}" class="{{ request()->routeIs('member.*') ? 'active' : '' }}"><i data-lucide="users" style="width: 18px; margin-right: 8px;"></i> Member</a></li>
-            <li><a href="{{ route('detail-transaksi.index') }}" class="{{ request()->routeIs('detail-transaksi.*') ? 'active' : '' }}"><i data-lucide="clipboard-list" style="width: 18px; margin-right: 8px;"></i> Detail Transaksi</a></li>
+
+            {{-- ANALITIK --}}
+            <li class="nav-group-label"><span class="nav-label">Analitik</span></li>
+            <li><a href="{{ route('dashboard.index') }}" class="{{ request()->routeIs('dashboard.*') ? 'active' : '' }}" data-label="Dashboard"><i data-lucide="layout-dashboard" style="width: 18px;"></i><span class="nav-label">Dashboard</span></a></li>
+
+            {{-- INVENTARIS: Admin + Inventaris --}}
+            @if(in_array(auth()->user()->role, ['admin', 'inventaris']))
+                <li class="nav-group-label"><span class="nav-label">Inventaris</span></li>
+                <li><a href="{{ route('barang.index') }}" class="{{ request()->routeIs('barang.*') ? 'active' : '' }}" data-label="Daftar Barang"><i data-lucide="package" style="width: 18px;"></i><span class="nav-label">Daftar Barang</span></a></li>
+                <li><a href="{{ route('stock-management.index') }}" class="{{ request()->routeIs('stock-management.*') ? 'active' : '' }}" data-label="Manajemen Stok"><i data-lucide="inbox" style="width: 18px;"></i><span class="nav-label">Manajemen Stok</span></a></li>
+                <li><a href="{{ route('kategori-barang.index') }}" class="{{ request()->routeIs('kategori-barang.*') ? 'active' : '' }}" data-label="Kategori"><i data-lucide="tag" style="width: 18px;"></i><span class="nav-label">Kategori</span></a></li>
+                <li><a href="{{ route('supplier.index') }}" class="{{ request()->routeIs('supplier.*') ? 'active' : '' }}" data-label="Data Supplier"><i data-lucide="building-2" style="width: 18px;"></i><span class="nav-label">Data Supplier</span></a></li>
+            @endif
+
+            {{-- PENJUALAN: Admin + POS --}}
+            @if(in_array(auth()->user()->role, ['admin', 'pos']))
+                <li class="nav-group-label"><span class="nav-label">Penjualan</span></li>
+                <li><a href="{{ route('transaksi.create') }}" class="{{ request()->routeIs('transaksi.create') ? 'active' : '' }}" data-label="POS / Kasir"><i data-lucide="shopping-cart" style="width: 18px;"></i><span class="nav-label">POS / Kasir</span></a></li>
+                <li><a href="{{ route('transaksi.index') }}" class="{{ request()->routeIs('transaksi.index') || request()->routeIs('transaksi.show') || request()->routeIs('transaksi.edit') ? 'active' : '' }}" data-label="Riwayat Transaksi"><i data-lucide="clipboard-list" style="width: 18px;"></i><span class="nav-label">Riwayat Transaksi</span></a></li>
+                <li><a href="{{ route('member.index') }}" class="{{ request()->routeIs('member.*') ? 'active' : '' }}" data-label="Member"><i data-lucide="users" style="width: 18px;"></i><span class="nav-label">Member</span></a></li>
+            @endif
+
+            {{-- MANAJEMEN: Admin saja --}}
+            @if(auth()->user()->role === 'admin')
+                <li class="nav-group-label"><span class="nav-label">Manajemen</span></li>
+                <li><a href="{{ route('employees.index') }}" class="{{ request()->routeIs('employees.*') ? 'active' : '' }}" data-label="Kelola Akun"><i data-lucide="user-cog" style="width: 18px;"></i><span class="nav-label">Kelola Akun</span></a></li>
+            @endif
+
         </ul>
     </div>
+    <!-- /Sidebar -->
 
-    <div class="main-content">
+    <div class="main-content" id="mainContent">
         <div class="top-bar">
+            {{-- Hamburger: hanya tampil di mobile --}}
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" onclick="openMobileSidebar()" title="Buka Menu">
+                <i data-lucide="menu" style="width: 20px;"></i>
+            </button>
+
             <div class="branch-selector">
                 <form action="{{ route('stock-management.set-branch') }}" method="POST">
                     @csrf
                     <label>Cabang:</label>
                     <select name="branch_id" class="form-select" style="width: auto; display: inline-block;" onchange="this.form.submit()">
-                        @foreach(\App\Models\Branch::all() as $branch)
-                            <option value="{{ $branch->id }}" {{ session('active_branch_id', 1) == $branch->id ? 'selected' : '' }}>
+                        @foreach(\App\Models\Branch::where('company_id', auth()->user()->company_id)->get() as $branch)
+                            <option value="{{ $branch->id }}" {{ session('active_branch_id') == $branch->id ? 'selected' : '' }}>
                                 {{ $branch->name }} ({{ $branch->code }})
                             </option>
                         @endforeach
@@ -59,22 +97,81 @@
                 </div>
             </div>
         </div>
+
+        @if ($message = Session::get('success'))
+            <div class="alert alert-success" style="margin: 16px 32px 0;">{{ $message }}</div>
+        @endif
+        @if ($message = Session::get('error'))
+            <div class="alert alert-danger" style="margin: 16px 32px 0;">{{ $message }}</div>
+        @endif
+
         @yield('content')
     </div>
+    <!-- /Main Content -->
+
 @stack('scripts')
 
 <script>
-    // Pass session data ke JavaScript
     window.sessionSuccess = "{{ session('success') ?? '' }}";
-    window.sessionError = "{{ session('error') ?? '' }}";
+    window.sessionError   = "{{ session('error') ?? '' }}";
 
+    // ── Desktop Sidebar Toggle ──────────────────────────────
+    function toggleSidebar() {
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+            openMobileSidebar();
+            return;
+        }
+        const html   = document.documentElement;
+        const isOpen = !html.classList.contains('sidebar-collapsed');
+        const icon   = document.getElementById('toggleIcon');
+
+        if (isOpen) {
+            html.classList.add('sidebar-collapsed');
+            icon.setAttribute('data-lucide', 'panel-left-open');
+            localStorage.setItem('sidebarCollapsed', 'true');
+        } else {
+            html.classList.remove('sidebar-collapsed');
+            icon.setAttribute('data-lucide', 'panel-left-close');
+            localStorage.setItem('sidebarCollapsed', 'false');
+        }
+        lucide.createIcons();
+    }
+
+    // ── Mobile Sidebar ──────────────────────────────────────
+    function openMobileSidebar() {
+        document.getElementById('sidebar').classList.add('mobile-open');
+        document.getElementById('sidebarOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileSidebar() {
+        document.getElementById('sidebar').classList.remove('mobile-open');
+        document.getElementById('sidebarOverlay').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Close mobile sidebar when a nav link is clicked
+    document.querySelectorAll('.sidebar-menu a').forEach(function(link) {
+        link.addEventListener('click', function() {
+            if (window.innerWidth <= 768) closeMobileSidebar();
+        });
+    });
+
+    // Restore desktop collapse state from localStorage
+    (function() {
+        if (localStorage.getItem('sidebarCollapsed') === 'true' && window.innerWidth > 768) {
+            document.documentElement.classList.add('sidebar-collapsed');
+        }
+    })();
+
+    // ── Account Dropdown ───────────────────────────────────
     function toggleAccountMenu() {
         document.getElementById('accountDropdown').classList.toggle('open');
     }
 
-    // Tutup dropdown kalau klik di luar area
     document.addEventListener('click', function (e) {
-        const menu = document.querySelector('.account-menu');
+        const menu     = document.querySelector('.account-menu');
         const dropdown = document.getElementById('accountDropdown');
         if (menu && !menu.contains(e.target)) {
             dropdown.classList.remove('open');
@@ -83,6 +180,17 @@
 
     // Initialize Lucide icons
     lucide.createIcons();
+
+    // Set correct toggle icon on first load (desktop)
+    (function() {
+        if (localStorage.getItem('sidebarCollapsed') === 'true') {
+            const icon = document.getElementById('toggleIcon');
+            if (icon) {
+                icon.setAttribute('data-lucide', 'panel-left-open');
+                lucide.createIcons();
+            }
+        }
+    })();
 </script>
 </body>
 </html>
