@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Branch;
+use App\Models\Company;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Branch;
 
 class BranchSeeder extends Seeder
 {
@@ -13,10 +14,15 @@ class BranchSeeder extends Seeder
      */
     public function run(): void
     {
-        Branch::create([
-            'name' => 'Cabang Utama',
-            'code' => 'CBG1',
-            'is_active' => true
-        ]);
+        $company = Company::first();
+        
+        if ($company) {
+            Branch::create([
+                'name' => 'Cabang Utama',
+                'code' => 'CBG1',
+                'is_active' => true,
+                'company_id' => $company->id,
+            ]);
+        }
     }
 }

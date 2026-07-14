@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Company;
 use Illuminate\Database\Seeder;
 use App\Models\Supplier;
 
@@ -9,6 +10,9 @@ class SupplierSeeder extends Seeder
 {
     public function run(): void
     {
+        $company = Company::first();
+        if (!$company) return;
+
         $suppliers = [
             ['nama' => 'PT. Fashion Indonesia', 'alamat' => 'Jl. Sudirman No. 123, Jakarta', 'telepon' => '021-12345678'],
             ['nama' => 'CV. Gaya Busana', 'alamat' => 'Jl. Gatot Subroto No. 45, Bandung', 'telepon' => '022-87654321'],
@@ -17,6 +21,7 @@ class SupplierSeeder extends Seeder
         ];
 
         foreach ($suppliers as $supplier) {
+            $supplier['company_id'] = $company->id;
             Supplier::create($supplier);
         }
     }

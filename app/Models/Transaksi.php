@@ -21,7 +21,8 @@ class Transaksi extends Model
         'total_akhir',
         'tunai',
         'kembalian',
-        'status'
+        'status',
+        'company_id'
     ];
 
     protected $dates = ['deleted_at'];

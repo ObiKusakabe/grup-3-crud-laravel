@@ -408,11 +408,8 @@
 
                 <!-- Footer -->
                 <div class="cart-footer">
-                    <!-- Kasir -->
-                    <div class="form-group-compact">
-                        <label>Kasir</label>
-                        <input type="text" class="form-control form-control-sm" id="kasir" name="kasir" required>
-                    </div>
+                    <!-- Kasir (Hidden) -->
+                    <input type="hidden" id="kasir" name="kasir" value="{{ auth()->user()->name }}">
 
                     <!-- Customer / Member Selection -->
                     <div class="form-group-compact">

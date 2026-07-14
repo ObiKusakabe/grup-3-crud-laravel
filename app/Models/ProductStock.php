@@ -10,7 +10,8 @@ class ProductStock extends Model
         'product_id',
         'branch_id',
         'stock',
-        'min_stock'
+        'min_stock',
+        'company_id'
     ];
 
     public function product()

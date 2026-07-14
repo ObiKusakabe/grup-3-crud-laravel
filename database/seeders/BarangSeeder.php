@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Branch;
+use App\Models\Company;
 use Illuminate\Database\Seeder;
 use App\Models\Barang;
 use App\Models\KategoriBarang;
@@ -11,10 +13,16 @@ class BarangSeeder extends Seeder
 {
     public function run(): void
     {
+        $company = Company::first();
+        if (!$company) return;
+
         $kategoriBaju = KategoriBarang::where('nama', 'Baju')->first()->id;
         $kategoriCelana = KategoriBarang::where('nama', 'Celana')->first()->id;
         $kategoriJaket = KategoriBarang::where('nama', 'Jaket')->first()->id;
         $kategoriSepatu = KategoriBarang::where('nama', 'Sepatu')->first()->id;
+
+        $branch = Branch::first();
+        $branchId = $branch ? $branch->id : null;
 
         $barangs = [
             [
@@ -23,7 +31,8 @@ class BarangSeeder extends Seeder
                 'kategori_id' => $kategoriBaju,
                 'harga_beli' => 50000,
                 'harga_jual' => 75000,
-                'stok' => 50
+                'stok' => 50,
+                'company_id' => $company->id
             ],
             [
                 'kode_barang' => 'BRG002',
@@ -31,7 +40,8 @@ class BarangSeeder extends Seeder
                 'kategori_id' => $kategoriBaju,
                 'harga_beli' => 80000,
                 'harga_jual' => 120000,
-                'stok' => 30
+                'stok' => 30,
+                'company_id' => $company->id
             ],
             [
                 'kode_barang' => 'BRG003',
@@ -39,7 +49,8 @@ class BarangSeeder extends Seeder
                 'kategori_id' => $kategoriCelana,
                 'harga_beli' => 100000,
                 'harga_jual' => 150000,
-                'stok' => 25
+                'stok' => 25,
+                'company_id' => $company->id
             ],
             [
                 'kode_barang' => 'BRG004',
@@ -47,7 +58,8 @@ class BarangSeeder extends Seeder
                 'kategori_id' => $kategoriJaket,
                 'harga_beli' => 250000,
                 'harga_jual' => 350000,
-                'stok' => 15
+                'stok' => 15,
+                'company_id' => $company->id
             ],
             [
                 'kode_barang' => 'BRG005',
@@ -55,7 +67,8 @@ class BarangSeeder extends Seeder
                 'kategori_id' => $kategoriSepatu,
                 'harga_beli' => 150000,
                 'harga_jual' => 225000,
-                'stok' => 20
+                'stok' => 20,
+                'company_id' => $company->id
             ]
         ];
 
@@ -66,12 +79,15 @@ class BarangSeeder extends Seeder
             $createdBarang = Barang::create($barang);
             
             // Create product stock for default branch
-            ProductStock::create([
-                'product_id' => $createdBarang->id,
-                'branch_id' => 1,
-                'stock' => $stok,
-                'min_stock' => 5
-            ]);
+            if ($branchId) {
+                ProductStock::create([
+                    'product_id' => $createdBarang->id,
+                    'branch_id' => $branchId,
+                    'stock' => $stok,
+                    'min_stock' => 5,
+                    'company_id' => $company->id
+                ]);
+            }
         }
     }
 }

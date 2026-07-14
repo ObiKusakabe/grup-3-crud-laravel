@@ -21,6 +21,13 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
+            
+            $user = Auth::user();
+            $firstBranch = \App\Models\Branch::where('company_id', $user->company_id)->first();
+            if ($firstBranch) {
+                session(['active_branch_id' => $firstBranch->id]);
+            }
+            
             return redirect()->intended(route('dashboard.index'));
         }
 

@@ -9,22 +9,31 @@ use Illuminate\Support\Facades\Storage;
 
 class BarangController extends Controller
 {
+    private function companyId(): int
+    {
+        return auth()->user()->company_id;
+    }
+
     public function index()
     {
-        $barang = Barang::orderBy('nama')->get();
+        $barang = Barang::where('company_id', $this->companyId())
+            ->orderBy('nama')
+            ->get();
         return view('barang.index', compact('barang'));
     }
 
     public function create()
     {
-        $kategori = KategoriBarang::orderBy('nama')->get();
+        $kategori = KategoriBarang::where('company_id', $this->companyId())
+            ->orderBy('nama')
+            ->get();
         return view('barang.create', compact('kategori'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'kode_barang' => 'required|unique:barangs',
+            'kode_barang' => 'required|unique:barangs,kode_barang,NULL,id,company_id,' . $this->companyId(),
             'nama' => 'required',
             'kategori_id' => 'required|exists:kategori_barang,id',
             'harga_beli' => 'required|numeric|min:0',
@@ -33,6 +42,7 @@ class BarangController extends Controller
         ]);
 
         $data = $request->all();
+        $data['company_id'] = $this->companyId();
 
         if ($request->hasFile('foto')) {
             $data['foto'] = $request->file('foto')->store('foto_barang', 'public');
@@ -45,16 +55,23 @@ class BarangController extends Controller
 
     public function show(Barang $barang)
     {
+        abort_if($barang->company_id !== $this->companyId(), 403);
         return view('barang.show', compact('barang'));
     }
 
     public function edit(Barang $barang)
     {
-        return view('barang.edit', compact('barang'));
+        abort_if($barang->company_id !== $this->companyId(), 403);
+        $kategori = KategoriBarang::where('company_id', $this->companyId())
+            ->orderBy('nama')
+            ->get();
+        return view('barang.edit', compact('barang', 'kategori'));
     }
 
     public function update(Request $request, Barang $barang)
     {
+        abort_if($barang->company_id !== $this->companyId(), 403);
+
         $request->validate([
             'kode_barang' => 'required|unique:barangs,kode_barang,' . $barang->id,
             'nama' => 'required',
@@ -80,6 +97,7 @@ class BarangController extends Controller
 
     public function destroy(Barang $barang)
     {
+        abort_if($barang->company_id !== $this->companyId(), 403);
         if ($barang->foto) {
             Storage::disk('public')->delete($barang->foto);
         }

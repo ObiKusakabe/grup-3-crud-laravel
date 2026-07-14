@@ -10,7 +10,7 @@ class DetailTransaksi extends Model {
     protected $table = 'detail_transaksi';
     protected $fillable = [
         'kode_transaksi', 'nama_barang',
-        'jumlah', 'harga_satuan', 'subtotal', 'jenis', 'alasan_retur'
+        'jumlah', 'harga_satuan', 'subtotal', 'jenis', 'alasan_retur', 'company_id'
     ];
     protected $dates = ['deleted_at'];
 }

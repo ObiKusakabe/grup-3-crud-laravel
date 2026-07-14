@@ -9,15 +9,8 @@
                 <p class="page-label">Dashboard</p>
                 <h1 class="page-title">Ringkasan bisnis dan analitik toko Anda</h1>
             </div>
-
             <div class="dashboard-actions">
-                <div class="form-group short">
-                    <label class="form-label" for="branch">Cabang</label>
-                    <select id="branch" class="form-select">
-                        <option>Cabang Batujajar</option>
-                    </select>
-                </div>
-                <a href="{{ route('transaksi.create') }}" class="btn btn-primary">+ Quick Create</a>
+                <a href="{{ route('transaksi.create') }}" class="btn btn-primary">+ Transaksi Baru</a>
             </div>
         </div>
 

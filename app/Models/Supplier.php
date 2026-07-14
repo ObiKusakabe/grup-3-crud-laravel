@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Supplier extends Model {
     use SoftDeletes;
     protected $table = 'supplier';
-    protected $fillable = ['nama', 'telepon', 'alamat'];
+    protected $fillable = ['nama', 'telepon', 'alamat', 'company_id'];
     protected $dates = ['deleted_at'];
 }

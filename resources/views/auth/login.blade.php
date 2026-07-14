@@ -51,6 +51,12 @@
                     Login
                 </button>
             </form>
+
+            <div style="text-align: center; padding: 15px 25px 20px; border-top: 1px solid #eee; margin-top: 10px;">
+                <span style="font-size: 13px; color: #666;">Belum punya akun?
+                    <a href="{{ route('signup') }}" style="color: #e94560; text-decoration: none; font-weight: 600;">Daftar di sini</a>
+                </span>
+            </div>
         </div>
 
     </div>

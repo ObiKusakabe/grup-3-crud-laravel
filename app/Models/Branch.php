@@ -9,7 +9,8 @@ class Branch extends Model
     protected $fillable = [
         'name',
         'code',
-        'is_active'
+        'is_active',
+        'company_id'
     ];
 
     public function productStocks()
