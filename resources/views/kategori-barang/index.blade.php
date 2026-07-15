@@ -5,16 +5,21 @@
 @section('content')
 <div class="page-header">
     <div>
-        <p class="page-label">Inventaris</p>
         <h1 class="page-title">Kategori Barang</h1>
         <p class="page-subtitle">Kelola kategori pengelompokan produk</p>
     </div>
-    <a href="{{ route('kategori-barang.create') }}" class="btn btn-success">
+    <a href="{{ route('kategori-barang.create') }}" class="btn btn-dark">
         <i data-lucide="plus" style="width: 16px;"></i> Tambah Kategori
     </a>
 </div>
 
 <div class="card">
+    <div style="padding: 16px;">
+        <div style="position: relative; max-width: 320px;">
+            <i data-lucide="search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; color: #adb5bd;"></i>
+            <input type="text" id="globalTableSearch" class="form-control" placeholder="Cari data..." style="padding-left: 36px;">
+        </div>
+    </div>
     <div class="table-responsive">
         <table class="table">
             <thead>

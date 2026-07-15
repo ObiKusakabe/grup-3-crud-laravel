@@ -12,6 +12,7 @@ use App\Http\Controllers\DetailTransaksiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Auth\SignUpController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\BranchController;
 
 // ── Auth (Guest only) ──────────────────────────────────────────────────────
 Route::middleware('guest')->group(function () {
@@ -65,13 +66,14 @@ Route::middleware('auth')->group(function () {
 
     // ── Admin only – edit/delete transaksi & kelola pegawai ────────────
     Route::middleware('checkrole:admin')->group(function () {
-        Route::get('transaksi/{transaksi}/edit', [TransaksiController::class, 'edit'])->name('transaksi.edit');
-        Route::put('transaksi/{transaksi}', [TransaksiController::class, 'update'])->name('transaksi.update');
+        // Route::get('transaksi/{transaksi}/edit', [TransaksiController::class, 'edit'])->name('transaksi.edit');
+        // Route::put('transaksi/{transaksi}', [TransaksiController::class, 'update'])->name('transaksi.update');
         Route::delete('transaksi/{transaksi}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');
-        Route::patch('transaksi/{transaksi}/status', [TransaksiController::class, 'updateStatus'])->name('transaksi.status');
+        // Route::patch('transaksi/{transaksi}/status', [TransaksiController::class, 'updateStatus'])->name('transaksi.status');
 
         Route::resource('member', MemberController::class)->except(['index']);
         Route::resource('employees', EmployeeController::class);
+        Route::resource('branches', BranchController::class);
         Route::resource('detail-transaksi', DetailTransaksiController::class);
     });
 

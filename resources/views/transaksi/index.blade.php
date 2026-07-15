@@ -5,60 +5,52 @@
 @section('content')
 <div class="page-header">
     <div>
-        <p class="page-label">Penjualan</p>
         <h1 class="page-title">Riwayat Transaksi</h1>
         <p class="page-subtitle">Lihat seluruh riwayat transaksi penjualan</p>
     </div>
-    <a href="{{ route('transaksi.create') }}" class="btn btn-success">
+    <a href="{{ route('transaksi.create') }}" class="btn btn-dark">
         <i data-lucide="plus" style="width: 16px;"></i> Transaksi Baru
     </a>
 </div>
 
 <div class="card">
+    <div style="padding: 16px;">
+        <div style="position: relative; max-width: 320px;">
+            <i data-lucide="search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; color: #adb5bd;"></i>
+            <input type="text" id="globalTableSearch" class="form-control" placeholder="Cari data..." style="padding-left: 36px;">
+        </div>
+    </div>
     <div class="table-responsive">
         <table class="table">
             <thead>
                 <tr>
-                    <th>Kode</th>
-                    <th>Tanggal</th>
-                    <th>Kasir</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
+                    <th>KODE</th>
+                    <th>TANGGAL</th>
+                    <th>KASIR</th>
+                    <th>TOTAL</th>
+                    <th>AKSI</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($transaksi as $t)
+                @forelse($transaksi as $item)
                 <tr>
-                    <td>{{ $t->kode_transaksi }}</td>
-                    <td>{{ $t->tanggal }}</td>
-                    <td>{{ $t->kasir }}</td>
-                    <td>Rp {{ number_format($t->total_akhir, 0, ',', '.') }}</td>
+                    <td><strong>{{ $item->kode_transaksi }}</strong></td>
+                    <td>{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d M Y') }}</td>
+                    <td>{{ $item->kasir }}</td>
+                    <td>Rp {{ number_format($item->total_akhir, 0, ',', '.') }}</td>
                     <td>
-                        @if($t->status == 'Pending')
-                            <span class="badge badge-warning">{{ $t->status }}</span>
-                        @elseif($t->status == 'Selesai')
-                            <span class="badge badge-success">{{ $t->status }}</span>
-                        @else
-                            <span class="badge badge-danger">{{ $t->status }}</span>
-                        @endif
-                    </td>
-                    <td>
-                        <div class="d-flex gap-2">
-                            <a href="{{ route('transaksi.show', $t) }}" class="btn btn-sm btn-primary"><i data-lucide="eye" style="width: 16px;"></i></a>
-                            @if(auth()->user()->role === 'admin')
-                                <a href="{{ route('transaksi.edit', $t) }}" class="btn btn-sm btn-warning"><i data-lucide="edit" style="width: 16px;"></i></a>
-                                <form action="{{ route('transaksi.destroy', $t) }}" method="POST" onsubmit="return confirm('Yakin? Stok kembali!')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger"><i data-lucide="trash-2" style="width: 16px;"></i></button>
-                                </form>
-                            @endif
-                        </div>
+                        <a href="{{ route('transaksi.show', $item) }}" class="btn btn-sm btn-dark" title="Lihat Detail">
+                            <i data-lucide="eye" style="width: 16px;"></i>
+                        </a>
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="6" class="text-center" style="padding: 32px; color: var(--outline);">Belum ada transaksi</td></tr>
+                <tr>
+                    <td colspan="5" class="text-center" style="padding: 32px; color: var(--outline);">
+                        <i data-lucide="inbox" style="width: 40px; margin-bottom: 12px; display: block; margin-left: auto; margin-right: auto;"></i>
+                        Belum ada transaksi
+                    </td>
+                </tr>
                 @endforelse
             </tbody>
         </table>

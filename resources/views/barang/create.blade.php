@@ -12,8 +12,8 @@
     <form action="{{ route('barang.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
-            <label class="form-label">Kode Barang</label>
-            <input type="text" name="kode_barang" class="form-control" required>
+            <label class="form-label">SKU (Otomatis)</label>
+            <input type="text" class="form-control" value="[Cabang]-[Tanggal]-[Nomor Urut]" disabled>
         </div>
         <div class="form-group">
             <label class="form-label">Nama</label>
@@ -21,7 +21,7 @@
         </div>
         <div class="form-group">
             <label class="form-label">Ukuran</label>
-            <input type="text" name="ukuran" class="form-control" required>
+            <input type="text" name="ukuran" class="form-control">
         </div>
         <div class="form-group">
             <label class="form-label">Kategori</label>
@@ -39,10 +39,6 @@
         <div class="form-group">
             <label class="form-label">Harga Jual</label>
             <input type="number" name="harga_jual" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label class="form-label">Stok Awal</label>
-            <input type="number" name="stok" class="form-control" value="0" required>
         </div>
         <div class="form-group">
             <label class="form-label">Foto</label>

@@ -95,7 +95,7 @@ h1, h2, h3, h4, h5, h6 {
     top: 0;
     padding: 0;
     box-shadow: 1px 0 0 rgba(255,255,255,0.05);
-    overflow: hidden;
+    overflow: visible;
     transition: width var(--transition-sidebar);
     z-index: 50;
 }
@@ -352,6 +352,27 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--on-secondary-container);
 }
 
+/* Semantic icon color variants */
+.metric-icon--success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.metric-icon--info {
+    background: #d0e8ff;
+    color: #084298;
+}
+
+.metric-icon--neutral {
+    background: #e8def8;
+    color: #4a2d8a;
+}
+
+.metric-icon--warning {
+    background: #fff3cd;
+    color: #a85d00;
+}
+
 /* ===== DASHBOARD LAYOUT ===== */
 .dashboard-layout {
     display: grid;
@@ -485,6 +506,15 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--on-surface);
     background: var(--surface-container-lowest);
     transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2345464d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 16px 16px;
+    padding-right: 40px;
 }
 
 .form-control:focus,
@@ -783,6 +813,40 @@ html.sidebar-collapsed .sidebar {
     width: var(--sidebar-collapsed-width);
 }
 
+/* ===== ACCOUNT MENU — collapsed sidebar state ===== */
+html.sidebar-collapsed .account-menu {
+    padding: 16px 8px !important;
+}
+
+html.sidebar-collapsed .account-trigger {
+    padding: 7px !important;
+    justify-content: center !important;
+    gap: 0 !important;
+}
+
+html.sidebar-collapsed .account-trigger > div {
+    gap: 0 !important;
+}
+
+html.sidebar-collapsed .account-name {
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+html.sidebar-collapsed .account-trigger > i[data-lucide="chevron-up"] {
+    display: none;
+}
+
+/* Dropdown needs to escape the narrow collapsed rail so it doesn't clip/wrap */
+html.sidebar-collapsed .account-dropdown {
+    left: calc(100% + 8px) !important;
+    right: auto !important;
+    bottom: 8px !important;
+    width: 230px !important;
+}
+
 /* Hide brand text */
 html.sidebar-collapsed .sidebar-brand > span {
     opacity: 0;
@@ -1054,4 +1118,323 @@ html.sidebar-collapsed .sidebar-menu a:hover::after {
     html.sidebar-collapsed .sidebar-menu a::after {
         display: none;
     }
+}
+
+/* ==========================================
+   TOASTER-UI CUSTOM PREMIUM STYLING
+   ========================================== */
+.toaster-ui-lib-container {
+    top: 24px !important;
+    right: 24px !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    max-width: 380px !important;
+    z-index: 999999 !important;
+}
+
+.toaster-ui-lib {
+    font-family: var(--font-body) !important;
+    background-color: var(--surface-container-lowest) !important;
+    color: var(--on-surface) !important;
+    border: 1px solid var(--outline-variant) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.08) !important;
+    padding: 16px 40px 16px 20px !important;
+    margin: 0 !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    line-height: 1.5 !important;
+    position: relative !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Left accent border based on type */
+.toaster-ui-lib::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 6px !important;
+    border-radius: 12px 0 0 12px !important;
+    z-index: 2 !important;
+}
+
+/* Type variations background and left border */
+.toaster-ui-lib-success {
+    background-color: var(--surface-container-lowest) !important;
+    border-left: 1px solid rgba(16, 185, 129, 0.2) !important;
+}
+.toaster-ui-lib-success::before {
+    background-color: #10b981 !important; /* Emerald Green */
+}
+
+.toaster-ui-lib-error {
+    background-color: var(--surface-container-lowest) !important;
+    border-left: 1px solid rgba(186, 26, 26, 0.2) !important;
+}
+.toaster-ui-lib-error::before {
+    background-color: var(--error) !important; /* Crimson/Red */
+}
+
+.toaster-ui-lib-warning {
+    background-color: var(--surface-container-lowest) !important;
+    border-left: 1px solid rgba(245, 158, 11, 0.2) !important;
+}
+.toaster-ui-lib-warning::before {
+    background-color: #f59e0b !important; /* Amber/Orange */
+}
+
+.toaster-ui-lib-info {
+    background-color: var(--surface-container-lowest) !important;
+    border-left: 1px solid rgba(37, 99, 235, 0.2) !important;
+}
+.toaster-ui-lib-info::before {
+    background-color: var(--accent) !important; /* Accent Blue */
+}
+
+.toaster-ui-lib-loading {
+    background-color: var(--surface-container-lowest) !important;
+    border-left: 1px solid rgba(81, 95, 116, 0.2) !important;
+}
+.toaster-ui-lib-loading::before {
+    background-color: var(--secondary) !important;
+}
+
+/* Close button custom styling */
+.toaster-ui-lib-close {
+    color: var(--on-surface-variant) !important;
+    font-size: 20px !important;
+    right: 16px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    opacity: 0.5 !important;
+    transition: opacity 0.2s ease, color 0.2s ease !important;
+    font-weight: normal !important;
+    background: transparent !important;
+}
+
+.toaster-ui-lib-close:hover {
+    opacity: 0.9 !important;
+    color: var(--on-surface) !important;
+}
+
+/* Toast Text container */
+.toaster-ui-lib-text {
+    color: var(--on-surface) !important;
+    font-family: var(--font-body) !important;
+}
+
+/* Progress bar timer styling at the bottom */
+.toaster-ui-lib::after {
+    background: var(--outline-variant) !important;
+    height: 3px !important;
+    opacity: 0.6 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+}
+
+/* Redefine built-in animations keyframes to have smooth non-blurred transitions */
+@keyframes toaster-ui-lib-slide-in-blurred-right {
+    0% {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes toaster-ui-lib-slide-out-blurred-right {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes toaster-ui-lib-slide-in-blurred-right {
+    0% {
+        -webkit-transform: translateX(120%);
+        opacity: 0;
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes toaster-ui-lib-slide-out-blurred-right {
+    0% {
+        -webkit-transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        -webkit-transform: translateX(120%);
+        opacity: 0;
+    }
+}
+
+/* ============================================
+   SIDEBAR GROUP LABEL FIX
+   ============================================ */
+
+.nav-group-label {
+    padding: 16px 20px 6px 20px !important;
+    margin-top: 4px;
+}
+
+.nav-group-label .nav-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+}
+
+/* Samakan padding menu item dengan label */
+.sidebar-menu a {
+    padding: 10px 20px !important;
+}
+
+.sidebar-menu a i {
+    margin-right: 12px;
+}
+
+/* ============================================
+   THEME FIX - Ganti biru jadi dark charcoal
+   ============================================ */
+
+/* Primary button: biru → dark charcoal */
+.btn-primary {
+    background-color: #1a1a2e !important;
+    border-color: #1a1a2e !important;
+    color: #ffffff !important;
+}
+
+.btn-primary:hover {
+    background-color: #2d2d44 !important;
+    border-color: #2d2d44 !important;
+}
+
+/* Success button: hijau lebih muted */
+.btn-success {
+    background-color: #2d5a3d !important;
+    border-color: #2d5a3d !important;
+}
+
+/* Focus ring select: biru → dark */
+.form-select:focus {
+    border-color: #1a1a2e !important;
+    box-shadow: 0 0 0 3px rgba(26, 26, 46, 0.15) !important;
+    outline: none !important;
+}
+
+/* Active sidebar item: biru → putih/soft */
+.sidebar-menu a.active {
+    background: rgba(255,255,255,0.08) !important;
+    border-left: 3px solid #e8e8e8 !important;
+    color: #ffffff !important;
+}
+
+/* Scrollbar: biru → neutral */
+::-webkit-scrollbar-thumb {
+    background: #4a4a5a !important;
+    border-radius: 4px;
+}
+
+/* Strip/border biru di kanan → hapus */
+.card, .main-content, .top-bar {
+    border-right: none !important;
+}
+
+/* Shadow card: hapun tint biru */
+.card {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important;
+}
+
+/* Link default: biru → dark */
+a {
+    color: #1a1a2e;
+}
+
+a:hover {
+    color: #2d2d44;
+}
+
+/* Table row hover & border */
+.table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.15s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+.table tbody tr:last-child {
+    border-bottom: none;
+}
+
+/* Table cell vertical align */
+.table td, .table th {
+    vertical-align: middle;
+    padding: 14px 16px;
+}
+
+/* Page header consistency */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.page-header .page-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 4px 0;
+}
+
+.page-header .page-subtitle {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+}
+
+.btn-dark {
+    background-color: #1a1a2e;
+    border: 1px solid #1a1a2e;
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-dark:hover {
+    background-color: #2d2d44;
+    border-color: #2d2d44;
+}
+
+.btn-dark i {
+    width: 16px;
+    height: 16px;
 }

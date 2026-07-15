@@ -5,7 +5,6 @@
 @section('content')
 <div class="page-header">
     <div>
-        <p class="page-label">Inventaris</p>
         <h1 class="page-title">Manajemen Stok</h1>
         <p class="page-subtitle">Pantau dan perbarui stok barang per cabang</p>
     </div>
@@ -17,12 +16,10 @@
     <div class="card-body" style="padding-bottom: 0;">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 20px;">
             <!-- Search bar -->
-            <form action="{{ route('stock-management.index') }}" method="GET" style="display: flex; gap: 8px; flex: 1; max-width: 400px; margin: 0;">
-                <input type="text" name="search" class="form-control" placeholder="Cari produk..." value="{{ request('search') }}">
-                <button type="submit" class="btn btn-secondary btn-icon" title="Cari">
-                    <i data-lucide="search" style="width: 18px;"></i>
-                </button>
-            </form>
+            <div style="position: relative; flex: 1; max-width: 320px; margin: 0;">
+                <i data-lucide="search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; color: #adb5bd;"></i>
+                <input type="text" id="globalTableSearch" class="form-control" placeholder="Cari data..." style="padding-left: 36px;">
+            </div>
 
             <!-- Branch selector -->
             <form action="{{ route('stock-management.set-branch') }}" method="POST" style="margin: 0;">
@@ -69,7 +66,7 @@
                     </td>
                     <td>
                         <strong style="color: var(--primary);">{{ $product->nama }}</strong>
-                        <div style="font-size: 12px; color: var(--outline);">{{ $product->kode_barang }}</div>
+                        <div style="font-size: 12px; color: var(--outline);">SKU: {{ $product->kode_barang }}</div>
                     </td>
                     <td>
                         <span>{{ $activeBranch?->name ?? '-' }}</span>

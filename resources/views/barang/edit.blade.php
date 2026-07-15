@@ -13,8 +13,9 @@
         @csrf
         @method('PUT')
         <div class="form-group">
-            <label class="form-label">Kode Barang</label>
-            <input type="text" name="kode_barang" class="form-control" value="{{ $barang->kode_barang }}" required>
+            <label class="form-label">SKU</label>
+            <input type="text" class="form-control" value="{{ $barang->kode_barang }}" disabled style="background: var(--surface-container); color: var(--on-surface-variant); cursor: not-allowed;">
+            <small style="color: var(--on-surface-variant); font-size: 12px; margin-top: 4px; display: block;">SKU dibuat otomatis dan tidak dapat diubah.</small>
         </div>
         <div class="form-group">
             <label class="form-label">Nama</label>
@@ -22,11 +23,16 @@
         </div>
         <div class="form-group">
             <label class="form-label">Ukuran</label>
-            <input type="text" name="ukuran" class="form-control" value="{{ $barang->ukuran }}" required>
+            <input type="text" name="ukuran" class="form-control" value="{{ $barang->ukuran }}">
         </div>
         <div class="form-group">
             <label class="form-label">Kategori</label>
-            <input type="text" name="kategori" class="form-control" value="{{ $barang->kategori }}" required>
+            <select name="kategori_id" class="form-control" required>
+                <option value="">-- Pilih Kategori --</option>
+                @foreach($kategori as $kat)
+                    <option value="{{ $kat->id }}" {{ $barang->kategori_id == $kat->id ? 'selected' : '' }}>{{ $kat->nama }}</option>
+                @endforeach
+            </select>
         </div>
         <div class="form-group">
             <label class="form-label">Harga Beli</label>
@@ -35,10 +41,6 @@
         <div class="form-group">
             <label class="form-label">Harga Jual</label>
             <input type="number" name="harga_jual" class="form-control" value="{{ $barang->harga_jual }}" required>
-        </div>
-        <div class="form-group">
-            <label class="form-label">Stok</label>
-            <input type="number" name="stok" class="form-control" value="{{ $barang->stok }}" required>
         </div>
         <div class="form-group">
             <label class="form-label">Foto</label><br>

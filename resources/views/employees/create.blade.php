@@ -9,7 +9,6 @@
             <i data-lucide="arrow-left" style="width: 16px;"></i> Kembali
         </a>
         <div>
-            <p class="page-label">Manajemen</p>
             <h1 class="page-title">Tambah Pegawai</h1>
             <p class="page-subtitle">Buat akun baru untuk pegawai</p>
         </div>

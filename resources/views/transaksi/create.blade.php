@@ -38,6 +38,46 @@
             margin-left: 10px;
         }
 
+        /* ===== FILTER KATEGORI ===== */
+        .category-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .category-chip {
+            border: 1px solid #dee2e6;
+            background: #fff;
+            color: #495057;
+            border-radius: 9999px;
+            padding: 6px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .category-chip:hover {
+            border-color: #0d6efd;
+            color: #0d6efd;
+        }
+
+        .category-chip.active {
+            background: #0d6efd;
+            border-color: #0d6efd;
+            color: #fff;
+        }
+
+        .product-empty {
+            text-align: center;
+            color: #999;
+            padding: 40px 15px;
+            font-size: 13px;
+            grid-column: 1 / -1;
+        }
+
         /* ===== GRID PRODUK (kartu kecil, bukan list panjang) ===== */
         .product-grid {
             display: grid;
@@ -75,28 +115,22 @@
             display: block;
         }
 
-        .add-btn {
+        .product-overlay {
             position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: #28a745;
-            color: #fff;
-            border: none;
-            font-size: 16px;
-            line-height: 1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-            transition: background 0.2s ease;
+            opacity: 0;
+            transition: opacity 0.2s ease;
         }
 
-        .add-btn:hover {
-            background: #218838;
+        .product-card:hover .product-overlay {
+            opacity: 1;
         }
 
         .product-card-body {
@@ -349,6 +383,13 @@
         }
     </style>
 
+    <div class="page-header" style="margin-bottom: 24px;">
+        <div>
+            <h1 class="page-title">Point of Sale</h1>
+            <p class="page-subtitle">Pilih produk dan buat transaksi baru</p>
+        </div>
+    </div>
+
     {{-- Form membungkus semua konten, action & method disamakan dengan dokumen transaksi lama --}}
     <form action="{{ route('transaksi.store') }}" method="POST" id="posForm">
         @csrf
@@ -359,7 +400,6 @@
             <!-- PRODUCT SECTION -->
             <div class="pos-main">
                 <div class="pos-card">
-                    <h5>Point of Sale</h5>
 
                     <input
                         type="text"
@@ -367,17 +407,27 @@
                         placeholder="Cari produk..."
                         id="search">
 
+                    <div class="category-filter" id="category-filter">
+                        <button type="button" class="category-chip active" data-kategori="all">Semua</button>
+                        @foreach($kategori as $k)
+                            <button type="button" class="category-chip" data-kategori="{{ $k->id }}">{{ $k->nama }}</button>
+                        @endforeach
+                    </div>
+
                     <div class="product-grid" id="product-grid">
                         @foreach($barang as $b)
                             <div class="product-list-item product-card"
                                 data-id="{{ $b->id }}"
                                 data-nama="{{ $b->nama }}"
                                 data-harga="{{ $b->harga_jual }}"
-                                data-stok="{{ $b->stok }}">
+                                data-stok="{{ $b->stok }}"
+                                data-kategori="{{ $b->kategori_id }}">
 
                                 <div class="product-img-wrap">
                                     <img src="{{ asset('storage/'.$b->foto) }}" alt="{{ $b->nama }}">
-                                    <button type="button" class="add-btn" title="Tambah ke keranjang">+</button>
+                                    <div class="product-overlay">
+                                        <i data-lucide="plus" style="color: white; width: 32px; height: 32px;"></i>
+                                    </div>
                                 </div>
 
                                 <div class="product-card-body">
@@ -412,20 +462,19 @@
                     <input type="hidden" id="kasir" name="kasir" value="{{ auth()->user()->name }}">
 
                     <!-- Customer / Member Selection -->
-                    <div class="form-group-compact">
+                    <div class="form-group-compact" style="margin-bottom: 12px;">
                         <label>Customer</label>
-                        <select class="form-select form-select-sm" id="customer" name="nama_member">
-                            <option value="" data-diskon="0">Walk-in Customer</option>
-                            @if(isset($member))
-                                @foreach($member as $m)
-                                    <option value="{{ $m->nama }}" data-diskon="{{ $m->diskon_persen }}">{{ $m->nama }} (Diskon {{ $m->diskon_persen }}%)</option>
-                                @endforeach
-                            @endif
-                        </select>
-                    </div>
-
-                    <div style="text-align: right; font-size: 12px; color: #0d6efd; cursor: pointer; margin-bottom: 12px;">
-                        <a href="#" style="text-decoration: none;">+ Tambah customer baru.</a>
+                        <div style="display: flex; gap: 8px;">
+                            <select class="form-select form-select-sm" id="customer" name="nama_member" style="flex: 1;">
+                                <option value="" data-diskon="0">Walk-in Customer</option>
+                                @if(isset($member))
+                                    @foreach($member as $m)
+                                        <option value="{{ $m->nama }}" data-diskon="{{ $m->diskon_persen }}">{{ $m->nama }} (Diskon {{ $m->diskon_persen }}%)</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            <a href="#" class="btn btn-sm btn-outline-primary" style="flex: 0 0 auto; display: flex; align-items: center; justify-content: center; font-weight: 600; padding: 0 12px; font-size: 12px; border-color: #dee2e6;">+ Baru</a>
+                        </div>
                     </div>
 
                     <!-- Payment Method -->
@@ -527,10 +576,58 @@
             input.dispatchEvent(new Event('input'));
         }
 
-        // Tambah produk ke keranjang
+        // Filter gabungan: pencarian teks + kategori aktif
+        let activeKategori = 'all';
+
+        function applyProductFilter() {
+            const keyword = document.getElementById('search').value.toLowerCase();
+            const items = document.querySelectorAll('.product-list-item');
+            let visibleCount = 0;
+
+            items.forEach(item => {
+                const nama = item.dataset.nama.toLowerCase();
+                const kategori = item.dataset.kategori;
+
+                const matchSearch = nama.includes(keyword);
+                const matchKategori = activeKategori === 'all' || kategori === activeKategori;
+
+                if (matchSearch && matchKategori) {
+                    item.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            const grid = document.getElementById('product-grid');
+            let emptyState = document.getElementById('product-empty-state');
+            if (visibleCount === 0) {
+                if (!emptyState) {
+                    emptyState = document.createElement('div');
+                    emptyState.id = 'product-empty-state';
+                    emptyState.className = 'product-empty';
+                    emptyState.textContent = 'Produk tidak ditemukan';
+                    grid.appendChild(emptyState);
+                }
+            } else if (emptyState) {
+                emptyState.remove();
+            }
+        }
+
+        document.getElementById('search').addEventListener('input', applyProductFilter);
+
+        document.querySelectorAll('.category-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                activeKategori = this.dataset.kategori;
+                applyProductFilter();
+            });
+        });
+
+        // Tambah produk ke keranjang (bisa klik di seluruh area card)
         document.querySelectorAll('.product-list-item').forEach(item => {
             item.addEventListener('click', function(e) {
-                if (!e.target.classList.contains('add-btn')) return;
 
                 const id = this.dataset.id;
                 const nama = this.dataset.nama;
@@ -569,10 +666,10 @@
                 container.innerHTML = cart.map((item, index) => `
                     <div class="cart-item">
                         <div class="cart-item-name">${item.nama}</div>
-                        <div class="cart-item-qty">
-                            <button type="button" class="btn btn-sm btn-light" onclick="decreaseQty(${index})">-</button>
-                            <input type="text" class="form-control form-control-sm text-center" value="${item.qty}" style="width: 35px; border: none; padding: 2px;" readonly>
-                            <button type="button" class="btn btn-sm btn-light" onclick="increaseQty(${index})">+</button>
+                        <div class="cart-item-qty stepper-group" style="height: 28px; width: 85px; margin: 0;">
+                            <button type="button" onclick="decreaseQty(${index})" style="height: 28px; width: 28px; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 14px;">-</button>
+                            <input type="text" value="${item.qty}" style="height: 28px; padding: 0;" readonly>
+                            <button type="button" onclick="increaseQty(${index})" style="height: 28px; width: 28px; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 14px;">+</button>
                         </div>
                         <div style="text-align: right; min-width: 80px;">
                             <div style="font-size: 12px; color: #999;">Rp${number_format(item.harga)}</div>
