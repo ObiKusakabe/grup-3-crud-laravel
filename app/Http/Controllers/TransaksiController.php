@@ -28,10 +28,11 @@ class TransaksiController extends Controller
     public function create()
     {
         $companyId = $this->companyId();
-        $barang = Barang::where('company_id', $companyId)->get();
+        $barang = Barang::with('kategori')->where('company_id', $companyId)->get();
+        $kategori = \App\Models\KategoriBarang::where('company_id', $companyId)->orderBy('nama')->get();
         $member = Member::where('company_id', $companyId)->get();
         $kode = 'TRX' . date('Ymd') . rand(1000, 9999);
-        return view('transaksi.create', compact('barang', 'member', 'kode'));
+        return view('transaksi.create', compact('barang', 'kategori', 'member', 'kode'));
     }
 
     public function store(Request $request)
@@ -73,7 +74,7 @@ class TransaksiController extends Controller
             'total_akhir' => $totalAkhir,
             'tunai' => $request->tunai,
             'kembalian' => $kembalian,
-            'status' => 'Pending',
+            'status' => 'Selesai',
             'company_id' => $companyId,
         ]);
 

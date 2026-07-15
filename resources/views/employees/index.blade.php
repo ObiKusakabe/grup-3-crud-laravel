@@ -5,22 +5,22 @@
 @section('content')
 <div class="page-header">
     <div>
-        <p class="page-label">Manajemen</p>
         <h1 class="page-title">Kelola Akun Pegawai</h1>
         <p class="page-subtitle">Manajemen akun pegawai perusahaan anda</p>
     </div>
-    <a href="{{ route('employees.create') }}" class="btn btn-success">
+    <a href="{{ route('employees.create') }}" class="btn btn-dark">
         <i data-lucide="plus" style="width: 16px;"></i> Tambah Pegawai
     </a>
 </div>
 
-@if ($message = Session::get('success'))
-    <div class="alert alert-success">
-        {{ $message }}
-    </div>
-@endif
 
 <div class="card">
+    <div style="padding: 16px;">
+        <div style="position: relative; max-width: 320px;">
+            <i data-lucide="search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; color: #adb5bd;"></i>
+            <input type="text" id="globalTableSearch" class="form-control" placeholder="Cari data..." style="padding-left: 36px;">
+        </div>
+    </div>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
