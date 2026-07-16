@@ -19,7 +19,7 @@
             <label class="form-label">Keterangan</label>
             <textarea name="keterangan" class="form-control" rows="2"></textarea>
         </div>
-        <button type="submit" class="btn btn-success"><i data-lucide="save" style="width: 18px; margin-right: 6px;"></i> Simpan</button>
+        <button type="submit" class="btn btn-dark"><i data-lucide="save" style="width: 18px; margin-right: 6px;"></i> Simpan</button>
     </form>
 </div>
 @endsection

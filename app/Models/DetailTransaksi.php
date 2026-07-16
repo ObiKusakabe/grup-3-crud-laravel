@@ -13,4 +13,9 @@ class DetailTransaksi extends Model {
         'jumlah', 'harga_satuan', 'subtotal', 'jenis', 'alasan_retur', 'company_id'
     ];
     protected $dates = ['deleted_at'];
+    
+    public function transaksi()
+    {
+        return $this->belongsTo(Transaksi::class, 'kode_transaksi', 'kode_transaksi');
+    }
 }
