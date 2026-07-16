@@ -22,14 +22,14 @@
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
 
     <!-- Sidebar Navigation -->
-    <div class="sidebar" id="sidebar" style="display: flex; flex-direction: column;">
+    <div class="sidebar" id="sidebar">
         <div class="sidebar-brand">
-            <span>POS <strong>FASHION</strong></span>
+            <span>Fit<strong>Stock</strong></span>
             <button class="sidebar-toggle" id="sidebarToggle" title="Toggle Sidebar" onclick="toggleSidebar()">
                 <i data-lucide="panel-left-close" id="toggleIcon" style="width: 18px;"></i>
             </button>
         </div>
-        <ul class="sidebar-menu" style="flex: 1; overflow-y: auto; overflow-x: hidden;">
+        <ul class="sidebar-menu">
 
             {{-- ANALITIK --}}
             <li class="nav-group-label"><span class="nav-label">Analitik</span></li>
@@ -97,13 +97,18 @@
                 <form action="{{ route('stock-management.set-branch') }}" method="POST">
                     @csrf
                     <label>Cabang:</label>
-                    <select name="branch_id" class="form-select" style="width: auto; display: inline-block;" onchange="this.form.submit()">
-                        @foreach(\App\Models\Branch::where('company_id', auth()->user()->company_id)->get() as $branch)
-                            <option value="{{ $branch->id }}" {{ session('active_branch_id') == $branch->id ? 'selected' : '' }}>
-                                {{ $branch->name }} ({{ $branch->code }})
-                            </option>
-                        @endforeach
-                    </select>
+                    <div class="relative" style="display: inline-block; width: auto;">
+                        <select name="branch_id" class="form-select" style="width: auto; display: inline-block; padding-right: 30px; appearance: none;" onchange="this.form.submit()">
+                            @foreach(\App\Models\Branch::where('company_id', auth()->user()->company_id)->get() as $branch)
+                                <option value="{{ $branch->id }}" {{ session('active_branch_id') == $branch->id ? 'selected' : '' }}>
+                                    {{ $branch->name }} ({{ $branch->code }})
+                                </option>
+                            @endforeach
+                        </select>
+                        <svg style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; pointer-events: none; color: #6b7280;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </div>
                 </form>
             </div>
         </div>

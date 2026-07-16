@@ -20,8 +20,8 @@
             <input type="text" id="globalTableSearch" class="form-control" placeholder="Cari data..." style="padding-left: 36px;">
         </div>
     </div>
-    <div class="table-responsive">
-        <table class="table">
+    <div class="table-responsive" style="overflow-x: auto;">
+        <table class="table" style="min-width: 600px;">
             <thead>
                 <tr><th>Nama</th><th>Keterangan</th><th>Aksi</th></tr>
             </thead>

@@ -23,7 +23,7 @@
             <label class="form-label">Alamat</label>
             <textarea name="alamat" class="form-control" rows="3"></textarea>
         </div>
-        <button type="submit" class="btn btn-success"><i data-lucide="save" style="width: 18px; margin-right: 6px;"></i> Simpan</button>
+        <button type="submit" class="btn btn-dark"><i data-lucide="save" style="width: 18px; margin-right: 6px;"></i> Simpan</button>
     </form>
 </div>
 @endsection
