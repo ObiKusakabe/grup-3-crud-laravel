@@ -121,7 +121,6 @@
                     <table class="table dashboard-table" style="margin:0;">
                         <thead>
                             <tr>
-                                <th>Kode</th>
                                 <th>Tanggal</th>
                                 <th>Kasir</th>
                                 <th style="text-align:right;">Total</th>
@@ -131,12 +130,14 @@
                             @foreach($transaksiTerbaru as $item)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('transaksi.show', $item) }}" style="color:var(--primary-container);font-weight:600;">
+                                        <a href="{{ route('transaksi.show', $item) }}" style="color:var(--primary-container);font-weight:600;display:block;font-size:12px;margin-bottom:2px;">
                                             {{ $item->kode_transaksi }}
                                         </a>
+                                        <span style="color:var(--on-surface-variant);font-size:12px;">
+                                            {{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d M Y') }}
+                                        </span>
                                     </td>
-                                    <td>{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d M Y') }}</td>
-                                    <td>{{ $item->kasir }}</td>
+                                    <td style="color:var(--on-surface-variant);">{{ $item->kasir }}</td>
                                     <td style="text-align:right;font-weight:600;">Rp {{ number_format($item->total_akhir, 0, ',', '.') }}</td>
                                 </tr>
                             @endforeach

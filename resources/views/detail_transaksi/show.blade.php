@@ -21,11 +21,6 @@
 
     <div class="d-flex gap-2" style="margin: 0 25px 25px;">
         <a href="{{ route('detail-transaksi.edit', $detailTransaksi) }}" class="btn btn-warning"><i data-lucide="edit" style="width: 18px; margin-right: 6px;"></i> Edit</a>
-        <form action="{{ route('detail-transaksi.destroy', $detailTransaksi) }}" method="POST" onsubmit="return confirm('Yakin? Stok otomatis berubah!')">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger"><i data-lucide="trash-2" style="width: 18px; margin-right: 6px;"></i> Hapus</button>
-        </form>
     </div>
 </div>
 @endsection

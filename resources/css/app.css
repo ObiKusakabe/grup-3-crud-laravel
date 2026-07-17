@@ -1429,10 +1429,6 @@ html.sidebar-collapsed .sidebar-menu a:hover::after {
 }
 
 /* Strip/border biru di kanan → hapus */
-.card, .main-content, .top-bar {
-    border-right: none !important;
-}
-
 /* Shadow card: hapun tint biru */
 .card {
     box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important;

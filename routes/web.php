@@ -67,7 +67,7 @@ Route::middleware('auth')->group(function () {
     // ── Admin only – edit/delete transaksi & kelola pegawai ────────────
     Route::middleware('checkrole:admin')->group(function () {
         // Route::get('transaksi/{transaksi}/edit', [TransaksiController::class, 'edit'])->name('transaksi.edit');
-        // Route::put('transaksi/{transaksi}', [TransaksiController::class, 'update'])->name('transaksi.update');
+        Route::put('transaksi/{transaksi}', [TransaksiController::class, 'update'])->name('transaksi.update');
         Route::delete('transaksi/{transaksi}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');
         // Route::patch('transaksi/{transaksi}/status', [TransaksiController::class, 'updateStatus'])->name('transaksi.status');
 

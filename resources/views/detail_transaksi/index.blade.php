@@ -35,11 +35,6 @@
                     <div class="d-flex gap-2">
                         <a href="{{ route('detail-transaksi.show', $d) }}" class="btn btn-sm btn-primary"><i data-lucide="eye" style="width: 16px;"></i></a>
                         <a href="{{ route('detail-transaksi.edit', $d) }}" class="btn btn-sm btn-warning"><i data-lucide="edit" style="width: 16px;"></i></a>
-                        <form action="{{ route('detail-transaksi.destroy', $d) }}" method="POST" onsubmit="return confirm('Yakin? Stok otomatis berubah!')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger"><i data-lucide="trash-2" style="width: 16px;"></i></button>
-                        </form>
                     </div>
                 </td>
             </tr>
