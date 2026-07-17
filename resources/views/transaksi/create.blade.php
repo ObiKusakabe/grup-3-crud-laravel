@@ -473,7 +473,7 @@
                                     @endforeach
                                 @endif
                             </select>
-                            <a href="#" class="btn btn-sm btn-outline-primary" style="flex: 0 0 auto; display: flex; align-items: center; justify-content: center; font-weight: 600; padding: 0 12px; font-size: 12px; border-color: #dee2e6;">+ Baru</a>
+                            <a href="{{ route('member.create') }}" class="btn btn-sm btn-outline-primary" style="flex: 0 0 auto; display: flex; align-items: center; justify-content: center; font-weight: 600; padding: 0 12px; font-size: 12px; border-color: #dee2e6;" target="_blank">+ Baru</a>
                         </div>
                     </div>
 
