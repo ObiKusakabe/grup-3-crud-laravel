@@ -44,6 +44,7 @@
                 <tr>
                     <th>Foto</th>
                     <th>Produk</th>
+                    <th>Supplier</th>
                     <th>Cabang</th>
                     <th>Stok</th>
                     <th class="text-right">Aksi</th>
@@ -69,6 +70,9 @@
                         <div style="font-size: 12px; color: var(--outline);">SKU: {{ $product->kode_barang }}</div>
                     </td>
                     <td>
+                        <span style="font-size:13px;">{{ $product->supplier?->nama ?? '-' }}</span>
+                    </td>
+                    <td>
                         <span>{{ $activeBranch?->name ?? '-' }}</span>
                         <div style="font-size: 12px; color: var(--outline);">{{ $activeBranch?->code ?? '-' }}</div>
                     </td>
@@ -90,7 +94,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" class="text-center" style="padding: 32px; color: var(--outline);">
+                    <td colspan="6" class="text-center" style="padding: 32px; color: var(--outline);">
                         Belum ada barang terdaftar
                     </td>
                 </tr>

@@ -27,7 +27,7 @@ class StockManagementController extends Controller
         }
 
         $search = $request->input('search');
-        $query = Barang::where('company_id', $companyId)->with(['productStocks']);
+        $query = Barang::where('company_id', $companyId)->with(['productStocks', 'supplier']);
 
         if ($search) {
             $query->where(function($q) use ($search) {

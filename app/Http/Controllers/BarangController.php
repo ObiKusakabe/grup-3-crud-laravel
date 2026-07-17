@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\KategoriBarang;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,10 +25,9 @@ class BarangController extends Controller
 
     public function create()
     {
-        $kategori = KategoriBarang::where('company_id', $this->companyId())
-            ->orderBy('nama')
-            ->get();
-        return view('barang.create', compact('kategori'));
+        $kategori  = KategoriBarang::where('company_id', $this->companyId())->orderBy('nama')->get();
+        $suppliers = Supplier::where('company_id', $this->companyId())->orderBy('nama')->get();
+        return view('barang.create', compact('kategori', 'suppliers'));
     }
 
     public function store(Request $request)
@@ -55,6 +55,7 @@ class BarangController extends Controller
             'nama' => 'required',
             'ukuran' => 'nullable|string|max:100',
             'kategori_id' => 'required|exists:kategori_barang,id',
+            'supplier_id' => 'nullable|exists:supplier,id',
             'harga_beli' => 'required|numeric|min:0',
             'harga_jual' => 'required|numeric|min:0',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
@@ -81,10 +82,9 @@ class BarangController extends Controller
     public function edit(Barang $barang)
     {
         abort_if($barang->company_id !== $this->companyId(), 403);
-        $kategori = KategoriBarang::where('company_id', $this->companyId())
-            ->orderBy('nama')
-            ->get();
-        return view('barang.edit', compact('barang', 'kategori'));
+        $kategori  = KategoriBarang::where('company_id', $this->companyId())->orderBy('nama')->get();
+        $suppliers = Supplier::where('company_id', $this->companyId())->orderBy('nama')->get();
+        return view('barang.edit', compact('barang', 'kategori', 'suppliers'));
     }
 
     public function update(Request $request, Barang $barang)
@@ -95,6 +95,7 @@ class BarangController extends Controller
             'nama' => 'required',
             'ukuran' => 'nullable|string|max:100',
             'kategori_id' => 'required|exists:kategori_barang,id',
+            'supplier_id' => 'nullable|exists:supplier,id',
             'harga_beli' => 'required|numeric|min:0',
             'harga_jual' => 'required|numeric|min:0',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'

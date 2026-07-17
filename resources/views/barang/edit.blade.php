@@ -35,6 +35,15 @@
             </select>
         </div>
         <div class="form-group">
+            <label class="form-label">Supplier <span style="color:var(--on-surface-variant);font-weight:400;">(Opsional)</span></label>
+            <select name="supplier_id" class="form-control">
+                <option value="">-- Pilih Supplier --</option>
+                @foreach($suppliers as $sup)
+                    <option value="{{ $sup->id }}" {{ $barang->supplier_id == $sup->id ? 'selected' : '' }}>{{ $sup->nama }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group">
             <label class="form-label">Harga Beli</label>
             <input type="number" name="harga_beli" class="form-control" value="{{ $barang->harga_beli }}" required>
         </div>
