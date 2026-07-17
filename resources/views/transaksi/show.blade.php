@@ -80,18 +80,6 @@
         <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 24px;">
             <!-- Left Side Actions -->
             <div style="display: flex; gap: 12px; align-items: center;">
-                @if(auth()->user()->role === 'admin')
-                    <a href="{{ route('transaksi.edit', $transaksi) }}" class="btn btn-warning" style="display: inline-flex; align-items: center; gap: 8px;">
-                        <i data-lucide="edit-3" style="width: 16px;"></i> Edit Status
-                    </a>
-                    <form action="{{ route('transaksi.destroy', $transaksi) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus transaksi ini? Stok barang akan dikembalikan!')" style="display: inline-block; margin: 0;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger" style="display: inline-flex; align-items: center; gap: 8px;">
-                            <i data-lucide="trash-2" style="width: 16px;"></i> Hapus
-                        </button>
-                    </form>
-                @endif
             </div>
 
             <!-- Right Side Financial Summary -->

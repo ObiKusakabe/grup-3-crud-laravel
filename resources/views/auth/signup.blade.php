@@ -432,6 +432,13 @@
 
     lucide.createIcons();
     if (currentSlide > 1) updateUI();
+
+    // ── Toast notifications ───────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+        @if($errors->any())
+            window.showToast && window.showToast(@json($errors->first()), 'error');
+        @endif
+    });
 </script>
 </body>
 </html>

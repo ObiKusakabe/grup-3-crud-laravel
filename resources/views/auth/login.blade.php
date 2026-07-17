@@ -6,6 +6,7 @@
     <title>Login - FitStock</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://unpkg.com/lucide@latest"></script>
+    @vite(['resources/js/app.js'])
 </head>
 <body class="auth-page">
 
@@ -152,6 +153,16 @@
         });
     });
     lucide.createIcons();
+
+    // ── Toast notifications ───────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+        @if(session('logout_success'))
+            window.showToast && window.showToast(@json(session('logout_success')), 'success');
+        @endif
+        @if(session('login_error') || $errors->has('email'))
+            window.showToast && window.showToast(@json($errors->first('email') ?? session('login_error') ?? 'Email atau password salah.'), 'error');
+        @endif
+    });
 </script>
 </body>
 </html>
