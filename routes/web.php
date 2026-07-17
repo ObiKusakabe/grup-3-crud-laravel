@@ -71,14 +71,13 @@ Route::middleware('auth')->group(function () {
         Route::delete('transaksi/{transaksi}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');
         // Route::patch('transaksi/{transaksi}/status', [TransaksiController::class, 'updateStatus'])->name('transaksi.status');
 
-        Route::resource('member', MemberController::class)->except(['index']);
         Route::resource('employees', EmployeeController::class);
         Route::resource('branches', BranchController::class);
         Route::resource('detail-transaksi', DetailTransaksiController::class);
     });
 
-    // ── Admin + POS – view member (untuk diskon) ───────────────────────────────
+    // ── Admin + POS – kelola member ────────────────────────────────────
     Route::middleware('checkrole:admin,pos')->group(function () {
-        Route::get('member', [MemberController::class, 'index'])->name('member.index');
+        Route::resource('member', MemberController::class);
     });
 });
