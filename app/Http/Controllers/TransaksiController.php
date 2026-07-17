@@ -27,11 +27,25 @@ class TransaksiController extends Controller
 
     public function create()
     {
-        $companyId = $this->companyId();
+        $companyId      = $this->companyId();
+        $activeBranchId = session('active_branch_id');
+
         $barang = Barang::with('kategori')->where('company_id', $companyId)->get();
+
+        // Inject stok dari ProductStock per cabang aktif ke tiap barang
+        if ($activeBranchId) {
+            $stocks = ProductStock::where('branch_id', $activeBranchId)
+                ->pluck('stock', 'product_id');
+            $barang->each(function ($b) use ($stocks) {
+                $b->stok = $stocks->get($b->id, 0);
+            });
+        } else {
+            $barang->each(fn($b) => $b->stok = 0);
+        }
+
         $kategori = \App\Models\KategoriBarang::where('company_id', $companyId)->orderBy('nama')->get();
-        $member = Member::where('company_id', $companyId)->get();
-        $kode = 'TRX' . date('Ymd') . rand(1000, 9999);
+        $member   = Member::where('company_id', $companyId)->get();
+        $kode     = 'TRX' . date('Ymd') . rand(1000, 9999);
         return view('transaksi.create', compact('barang', 'kategori', 'member', 'kode'));
     }
 
