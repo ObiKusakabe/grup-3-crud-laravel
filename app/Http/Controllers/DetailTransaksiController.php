@@ -75,6 +75,11 @@ class DetailTransaksiController extends Controller
                 );
                 
                 if ($request->jenis == 'jual') {
+                    // Stok tidak boleh minus
+                    if ($productStock->stock < $request->jumlah) {
+                        return back()->withInput()
+                            ->with('error', 'Stok tidak mencukupi. Stok saat ini: ' . $productStock->stock);
+                    }
                     $productStock->stock -= $request->jumlah;
                     StockMovement::create([
                         'product_id' => $barang->id,
@@ -137,9 +142,10 @@ class DetailTransaksiController extends Controller
             
             if ($productStock) {
                 if ($jenisLama == 'jual') {
-                    $productStock->stock += $jumlahLama;
+                    $productStock->stock += $jumlahLama; // kembalikan stok dari transaksi lama
                 } else {
-                    $productStock->stock -= $jumlahLama;
+                    // retur lama dikembalikan → stok boleh minus di sini karena ini reversal
+                    $productStock->stock = max(0, $productStock->stock - $jumlahLama);
                 }
                 $productStock->save();
             }
@@ -160,6 +166,11 @@ class DetailTransaksiController extends Controller
             
             if ($productStock) {
                 if ($request->jenis == 'jual') {
+                    // Stok tidak boleh minus
+                    if ($productStock->stock < $request->jumlah) {
+                        return back()->withInput()
+                            ->with('error', 'Stok tidak mencukupi. Stok saat ini: ' . $productStock->stock);
+                    }
                     $productStock->stock -= $request->jumlah;
                     StockMovement::create([
                         'product_id' => $barang->id,
@@ -215,7 +226,8 @@ class DetailTransaksiController extends Controller
                         'company_id' => $companyId
                     ]);
                 } else {
-                    $productStock->stock -= $detailTransaksi->jumlah;
+                    // Reversal retur — stok dikurangi kembali, min 0
+                    $productStock->stock = max(0, $productStock->stock - $detailTransaksi->jumlah);
                     StockMovement::create([
                         'product_id' => $barang->id,
                         'branch_id' => $activeBranchId,

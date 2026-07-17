@@ -100,7 +100,8 @@ class TransaksiController extends Controller
                         ['product_id' => $barang->id, 'branch_id' => $activeBranchId],
                         ['stock' => 0, 'min_stock' => 0]
                     );
-                    $productStock->stock -= $item['jumlah'];
+                    // Stok tidak boleh minus — kurangi hanya sebesar stok tersedia
+                    $productStock->stock = max(0, $productStock->stock - $item['jumlah']);
                     $productStock->save();
 
                     StockMovement::create([
